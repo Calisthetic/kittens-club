@@ -19,8 +19,8 @@ export default async function PostTables(
   const createQueries = [
     `CREATE TABLE \`users\` (
       \`user_id\` INT AUTO_INCREMENT PRIMARY KEY COMMENT 'User ID',
-      \`user_name\` VARCHAR(255) NOT NULL COMMENT 'User Name',
-      \`email\` VARCHAR(255) NOT NULL COMMENT 'Email',
+      \`user_name\` VARCHAR(255) NOT NULL UNIQUE COMMENT 'User Name',
+      \`email\` VARCHAR(255) NOT NULL UNIQUE COMMENT 'Email',
       \`password\` VARCHAR(30) NOT NULL COMMENT 'Password',
       \`image\` BLOB COMMENT 'Image',
       \`is_deleted\` TINYINT(1) DEFAULT FALSE COMMENT 'Is Deleted',
@@ -31,6 +31,7 @@ export default async function PostTables(
       \`user_id\` INT NOT NULL COMMENT 'User ID',
       \`cat_name\` VARCHAR(255) NOT NULL COMMENT 'Cat Name',
       \`is_kitten\` TINYINT(1) DEFAULT FALSE COMMENT 'Is Kitten',
+      \`is_private\` TINYINT(1) DEFAULT FALSE COMMENT 'Is Private',
       \`image\` BLOB COMMENT 'Image',
       FOREIGN KEY (\`user_id\`) REFERENCES \`users\`(\`user_id\`)
     );`,
@@ -50,12 +51,12 @@ export default async function PostTables(
     );`,
     `CREATE TABLE \`tag_categories\` (
       \`tag_category_id\` INT AUTO_INCREMENT PRIMARY KEY COMMENT 'Tag Category ID',
-      \`name\` VARCHAR(30) NOT NULL COMMENT 'Name'
+      \`tag_category_name\` VARCHAR(30) NOT NULL UNIQUE COMMENT 'Name'
     );`,
     `CREATE TABLE \`tags\` (
       \`tag_id\` INT AUTO_INCREMENT PRIMARY KEY COMMENT 'Tag ID',
       \`tag_category_id\` INT COMMENT 'Tag Category ID',
-      \`name\` VARCHAR(30) NOT NULL COMMENT 'Name',
+      \`tag_name\` VARCHAR(30) NOT NULL UNIQUE COMMENT 'Name',
       FOREIGN KEY (\`tag_category_id\`) REFERENCES \`tag_categories\`(\`tag_category_id\`)
     );`,
     `CREATE TABLE \`tags_of_cats\` (

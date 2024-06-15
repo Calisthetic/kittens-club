@@ -22,9 +22,11 @@ npm create next-app
 
 ```bash
 npm install next-intl
-npm i autoprefixer
+npm install autoprefixer
 npm install framer-motion
-npm i mysql2
+npm install mysql2
+npm install next-auth@beta
+npx auth secret
 ```
 
 ### Getting Started

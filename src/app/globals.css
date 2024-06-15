@@ -3,27 +3,57 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  --background: #f1f3f9;
+  --backgroundHover: #e0e3e9;
+  --backgroundSecond: #ffffff;
+  --backgroundThird: #e9eaef;
+  --foreground: #111827;
+  --foregroundSecondary: #313847;
+  --accent: #ff5500;
+  --border: #c3c6c9;
+  --button: #ff2c2c;
+  --buttonHover: #da0000;
+  --icon: #ff1100;
+  --shadow: #60636c;
+
+  --success: #00ff00;
+  --warning: #ff8800;
+  --error: #bb0d0d;
+
+  --transition: all .25s ease
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+    --background: #131619;
+    --backgroundHover: #333639;
+    --backgroundSecond: #181b1e;
+    --backgroundThird: #232629;
+    --foreground: #ffffff;
+    --foregroundSecondary: #cfcfcf;
+    --accent: #ff712b;
+    --border: #43464a;
+    --button: #ff1515;
+    --buttonHover: #ff4444;
+    --icon: #ff1100;
+    --shadow: #eeeeee;
   }
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  color: var(--foreground);
+  background: var(--background);
+}
+input {
+  border-color: var(--border);
+  color: var(--background);
+}
+input[type=text]::placeholder {
+  color: #888;
+}
+svg {
+  fill: var(--icon);
+  stroke: var(--icon);
 }
 
 @layer utilities {

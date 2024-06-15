@@ -1,7 +1,7 @@
 CREATE TABLE `users` (
   `user_id` INT AUTO_INCREMENT PRIMARY KEY COMMENT 'User ID',
-  `user_name` VARCHAR(255) NOT NULL COMMENT 'User Name',
-  `email` VARCHAR(255) NOT NULL COMMENT 'Email',
+  `user_name` VARCHAR(255) NOT NULL UNIQUE COMMENT 'User Name',
+  `email` VARCHAR(255) NOT NULL UNIQUE COMMENT 'Email',
   `password` VARCHAR(30) NOT NULL COMMENT 'Password',
   `image` BLOB COMMENT 'Image',
   `is_deleted` TINYINT(1) DEFAULT FALSE COMMENT 'Is Deleted',
@@ -13,7 +13,8 @@ CREATE TABLE `cats` (
   `user_id` INT NOT NULL COMMENT 'User ID',
   `cat_name` VARCHAR(255) NOT NULL COMMENT 'Cat Name',
   `is_kitten` TINYINT(1) DEFAULT FALSE COMMENT 'Is Kitten',
-  `image` BLOB COMMENT 'Image',
+  `media_type` enum('image', 'video')
+  `file` BLOB COMMENT 'Image',
   FOREIGN KEY (`user_id`) REFERENCES `users`(`user_id`)
 );
 
@@ -35,13 +36,13 @@ CREATE TABLE `liked_cats` (
 
 CREATE TABLE `tag_categories` (
   `tag_category_id` INT AUTO_INCREMENT PRIMARY KEY COMMENT 'Tag Category ID',
-  `name` VARCHAR(30) NOT NULL COMMENT 'Name'
+  `name` VARCHAR(30) NOT NULL UNIQUE COMMENT 'Name'
 );
 
 CREATE TABLE `tags` (
   `tag_id` INT AUTO_INCREMENT PRIMARY KEY COMMENT 'Tag ID',
   `tag_category_id` INT COMMENT 'Tag Category ID',
-  `name` VARCHAR(30) NOT NULL COMMENT 'Name',
+  `name` VARCHAR(30) NOT NULL UNIQUE COMMENT 'Name',
   FOREIGN KEY (`tag_category_id`) REFERENCES `tag_categories`(`tag_category_id`)
 );
 
