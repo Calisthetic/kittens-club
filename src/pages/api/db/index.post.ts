@@ -29,10 +29,10 @@ export default async function PostTables(
     `CREATE TABLE \`cats\` (
       \`cat_id\` INT AUTO_INCREMENT PRIMARY KEY COMMENT 'Cat ID',
       \`user_id\` INT NOT NULL COMMENT 'User ID',
-      \`cat_name\` VARCHAR(255) NOT NULL COMMENT 'Cat Name',
+      \`cat_name\` VARCHAR(255) COMMENT 'Cat Name',
       \`is_kitten\` TINYINT(1) DEFAULT FALSE COMMENT 'Is Kitten',
       \`is_private\` TINYINT(1) DEFAULT FALSE COMMENT 'Is Private',
-      \`image\` BLOB COMMENT 'Image',
+      \`image\` MEDIUMBLOB COMMENT 'Image',
       FOREIGN KEY (\`user_id\`) REFERENCES \`users\`(\`user_id\`)
     );`,
     `CREATE TABLE \`liked_cats\` (

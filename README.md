@@ -27,6 +27,8 @@ npm install framer-motion
 npm install mysql2
 npm install next-auth@beta
 npx auth secret
+npm install formidable
+npm i --save-dev @types/formidable
 ```
 
 ### Getting Started

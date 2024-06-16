@@ -141,9 +141,11 @@ export default function Sidebar({isOpen, username}:{isOpen:boolean, username:str
                   </motion.li>
                 ))
               }
+              <li className="w-full h-0.5"></li>
               <motion.li initial={{y: 20, opacity: 0}} animate={{y: 0, opacity: 1}}
               transition={{delay: 0.2, stiffness: 300, damping: 24}}
               className="w-full h-[1px] bg-border rounded"></motion.li>
+              <li className="w-full h-0.5"></li>
               {
                 username === "admin" ? (
                   <motion.li initial={{y: 20, opacity: 0}} animate={{y: 0, opacity: 1}}
