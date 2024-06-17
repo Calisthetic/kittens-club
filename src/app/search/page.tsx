@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import Image from 'next/image'
 
-const InfiniteScrollExample2 = () => {
+export default function Page () {
   const [items, setItems] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isFinal, setIsFinal] = useState(false);
@@ -76,13 +76,3 @@ const InfiniteScrollExample2 = () => {
     </div>
   );
 };
-
-export default InfiniteScrollExample2;
-
-export async function Page() {
-  return (
-    <div className="min-h-[calc(100vh-48px)] w-full flex justify-center items-center">
-
-    </div>
-  )
-}
