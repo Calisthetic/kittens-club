@@ -43,7 +43,7 @@ export default function SignInPage() {
         //     })
         //   }).then(res => {if (res.ok) {redirect("/")}})
         // }} 
-        className="w-full">
+        className="w-full flex flex-col items-center *:w-full">
           <label className="block text-sm sm:text-base mt-2 font-medium leading-6">
             Username
             <input name="username" type="username" ref={usernameRef}
@@ -60,7 +60,7 @@ export default function SignInPage() {
         <div className="mt-6 text-center text-sm text-textLight dark:text-textDark ">
           <span className='opacity-70'>Not a member?</span>
           <Link href="/auth/signup" className="font-semibold leading-6 text-buttonLight dark:text-buttonDark 
-          hover:text-buttonHoverLight dark:hover:text-buttonHoverDark">Join now!</Link>
+          hover:text-buttonHoverLight dark:hover:text-buttonHoverDark ml-1">Join now!</Link>
         </div>
       </div>
     </div>
