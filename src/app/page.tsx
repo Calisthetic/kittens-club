@@ -14,7 +14,7 @@ export default function Page () {
 
     setIsLoading(true);
 
-    await fetch(`/api/cats?offset=${index}0&limit=10`)
+    await fetch(process.env.NEXT_PUBLIC_API_URL + `/api/cats?offset=${index}0&limit=10`)
       .then(res => res.json())
       .then((data) => {
         if (data.length > 0) {
