@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useCallback } from "react";
 import Image from 'next/image'
+import Loading from "@/components/loading";
 
 export default function Page () {
   const [items, setItems] = useState<any[]>([]);
@@ -48,7 +49,7 @@ export default function Page () {
     const handleScroll = () => {
       const { scrollTop, clientHeight, scrollHeight } =
         document.documentElement;
-      if (scrollTop + clientHeight >= scrollHeight - 20 && !isLoading && !isFinal) {
+      if (scrollTop + clientHeight >= scrollHeight - 100 && !isLoading && !isFinal) {
         fetchData();
       }
     };
@@ -72,7 +73,7 @@ export default function Page () {
           </div>
         ))}
       </div>
-      {(isLoading && !isFinal) && <div>Loading</div>}
+      {(isLoading && !isFinal) && <Loading></Loading>}
     </div>
   );
 };
