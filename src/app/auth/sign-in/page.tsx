@@ -27,7 +27,7 @@ export default function SignInPage() {
         </div>
 
         <form action={(formData) => {
-          SignIn(formData).then(() => {setIsRedirect(true)})
+          SignIn(formData).then(() => {setIsRedirect(true)}).catch((error) => console.log(error))
         }}
         // onSubmit={async (e) => {
         //   e.preventDefault()

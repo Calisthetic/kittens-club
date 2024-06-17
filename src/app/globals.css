@@ -23,21 +23,19 @@
   --transition: all .25s ease
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #131619;
-    --backgroundHover: #333639;
-    --backgroundSecond: #181b1e;
-    --backgroundThird: #232629;
-    --foreground: #ffffff;
-    --foregroundSecondary: #cfcfcf;
-    --accent: #ff712b;
-    --border: #43464a;
-    --button: #ff1515;
-    --buttonHover: #ff4444;
-    --icon: #ff1100;
-    --shadow: #eeeeee;
-  }
+[data-theme='dark'] {
+  --background: #131619;
+  --backgroundHover: #333639;
+  --backgroundSecond: #181b1e;
+  --backgroundThird: #232629;
+  --foreground: #ffffff;
+  --foregroundSecondary: #cfcfcf;
+  --accent: #ff712b;
+  --border: #43464a;
+  --button: #ff1515;
+  --buttonHover: #ff4444;
+  --icon: #ff1100;
+  --shadow: #eeeeee;
 }
 
 body {

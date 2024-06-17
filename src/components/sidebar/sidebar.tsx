@@ -5,7 +5,8 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import IconClose from "../icons/close";
 
-export default function Sidebar({isOpen, username}:{isOpen:boolean, username:string|null}) {
+export default function Sidebar({isOpen, username, close}
+:{isOpen:boolean, username:string|null, close:() => void}) {
   const [isAdOpen, setIsAdOpen] = useState(true)
 
   const links = [
@@ -117,13 +118,28 @@ export default function Sidebar({isOpen, username}:{isOpen:boolean, username:str
       {(isOpen && isClient) && (
         <motion.div suppressHydrationWarning initial={{transform: "translateX(-256px)"}} animate={{transform: "translateX(0px)"}}
         exit={{transform: "translateX(-256px)"}} transition={{damping: 24, stiffness: 300}} id="main-sidebar" 
-        className="fixed top-12 left-0 z-30 w-56 sm:w-64 h-screen transition-transform border-border bg-background" aria-label="Sidebar">
+        className="fixed left-0 w-56 z-20 sm:w-64 min-h-screen transition-transform border-border bg-background" aria-label="Sidebar">
+          <div className="h-12 flex items-center">
+            <button onClick={close} className="ml-3 h-min flex items-center sm:hidden">
+              <svg enableBackground="new 0 0 24 24;" version="1.1" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
+              className="h-8 w-8 stroke-none">
+                <path d="M5.3,18.7C5.5,18.9,5.7,19,6,19s0.5-0.1,0.7-0.3l5.3-5.3l5.3,5.3c0.2,0.2,0.5,0.3,0.7,0.3s0.5-0.1,0.7-0.3   
+                c0.4-0.4,0.4-1,0-1.4L13.4,12l5.3-5.3c0.4-0.4,0.4-1,0-1.4s-1-0.4-1.4,0L12,10.6L6.7,5.3c-0.4-0.4-1-0.4-1.4,0s-0.4,1,0,1.4   
+                l5.3,5.3l-5.3,5.3C4.9,17.7,4.9,18.3,5.3,18.7z"/>
+              </svg>
+              <span className="flex-1 ml-1 text-sm sm:text-base whitespace-nowrap">Close it</span>
+            </button>
+          </div>
           <div className="h-full font-medium text-sm sm:text-base px-3 pb-4 overflow-y-auto">
-            <ul className="pt-1 sm:pt-3 space-y-1">
+            <ul className="pt-1 space-y-1">
+              <motion.li initial={{y: 20, opacity: 0}} animate={{y: 0, opacity: 1}}
+              transition={{delay: 0.20, stiffness: 300, damping: 24}}
+              className="w-full h-[1px] bg-border rounded sm:hidden"></motion.li>
+              <li className="w-full h-0.5 sm:hidden"></li>
               {
                 links.map((item, index:number) => item.isAuthRequired && !username ? (
                   <motion.li key={index} initial={{y: 20, opacity: 0}} animate={{y: 0, opacity: 1}}
-                  transition={{delay: (0.02 * (index + 1)), stiffness: 300, damping: 24}}>
+                  transition={{delay: (0.02 * (index + 1) + 0.2), stiffness: 300, damping: 24}}>
                     <div className="flex items-center p-1.5 sm:p-2 transition-all
                     rounded-lg hover:bg-background-hover opacity-40">
                       {item.icon}
@@ -132,7 +148,7 @@ export default function Sidebar({isOpen, username}:{isOpen:boolean, username:str
                   </motion.li>
                 ) : (
                   <motion.li key={index} initial={{y: 20, opacity: 0}} animate={{y: 0, opacity: 1}}
-                  transition={{delay: (0.02 * (index + 1)), stiffness: 300, damping: 24}}>
+                  transition={{delay: (0.02 * (index + 1) + 0.2), stiffness: 300, damping: 24}}>
                     <Link href={item.path} className="flex items-center p-1.5 sm:p-2 transition-all
                     rounded-lg hover:bg-background-hover">
                       {item.icon}
@@ -143,13 +159,13 @@ export default function Sidebar({isOpen, username}:{isOpen:boolean, username:str
               }
               <li className="w-full h-0.5"></li>
               <motion.li initial={{y: 20, opacity: 0}} animate={{y: 0, opacity: 1}}
-              transition={{delay: 0.2, stiffness: 300, damping: 24}}
+              transition={{delay: 0.34, stiffness: 300, damping: 24}}
               className="w-full h-[1px] bg-border rounded"></motion.li>
               <li className="w-full h-0.5"></li>
               {
                 username === "admin" ? (
                   <motion.li initial={{y: 20, opacity: 0}} animate={{y: 0, opacity: 1}}
-                  transition={{delay: 0.2, stiffness: 300, damping: 24}}>
+                  transition={{delay: 0.36, stiffness: 300, damping: 24}}>
                     <Link href="/verify" className="flex items-center p-1.5 sm:p-2 transition-all
                     rounded-lg hover:bg-background-hover">
                       <svg fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 sm:w-6 sm:h-6 !stroke-none">
@@ -181,7 +197,7 @@ export default function Sidebar({isOpen, username}:{isOpen:boolean, username:str
                 ) : null
               }
               <motion.li initial={{y: 20, opacity: 0}} animate={{y: 0, opacity: 1}}
-              transition={{delay: 0.2, stiffness: 300, damping: 24}}>
+              transition={{delay: 0.38, stiffness: 300, damping: 24}}>
                 <Link href="/help" className="flex items-center p-1.5 sm:p-2 transition-all
                 rounded-lg hover:bg-background-hover">
                   <svg className="w-5 h-5 sm:w-6 sm:h-6 stroke-none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" enableBackground="new 0 0 24 24"><g>
@@ -198,7 +214,7 @@ export default function Sidebar({isOpen, username}:{isOpen:boolean, username:str
               {
                 username ? (
                   <motion.li initial={{y: 20, opacity: 0}} animate={{y: 0, opacity: 1}}
-                  transition={{delay: 0.2, stiffness: 300, damping: 24}}>
+                  transition={{delay: 0.4, stiffness: 300, damping: 24}}>
                     <Link href="/auth/sign-out" className="flex items-center p-1.5 sm:p-2 transition-all
                     rounded-lg hover:bg-background-hover">
                       <svg enableBackground="new 0 0 32 32" version="1.1" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"
@@ -214,7 +230,7 @@ export default function Sidebar({isOpen, username}:{isOpen:boolean, username:str
                   </motion.li>
                 ) : (
                   <motion.li initial={{y: 20, opacity: 0}} animate={{y: 0, opacity: 1}}
-                  transition={{delay: 0.2, stiffness: 300, damping: 24}}>
+                  transition={{delay: 0.4, stiffness: 300, damping: 24}}>
                     <Link href="/auth/sign-in" className="flex items-center p-1.5 sm:p-2 transition-all
                     rounded-lg hover:bg-background-hover">
                       <svg enableBackground="new 0 0 32 32" version="1.1" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"
@@ -240,7 +256,7 @@ export default function Sidebar({isOpen, username}:{isOpen:boolean, username:str
                 className="p-2 sm:p-4 mt-4 sm:mt-6 transition rounded-lg bg-background-second 
                 text-sm shadow-shadow">
                   <div className="flex items-center mb-3 justify-between">
-                    <div className="font-semibold mr-2 px-2 py-0.5 rounded bg-accent">{username ? "New!" : "Info"}</div>
+                    <div className="font-semibold mr-2 px-1 sm:px-2 py-0.5 rounded bg-accent text-sm">{username ? "New!" : "Info"}</div>
                     <button onClick={() => {setIsAdOpen(false)}} type="button" id="cloase-ad" aria-label="Close ad"
                     className="ml-auto sm:-mx-1.5 -my-1.5
                     justify-center items-center w-6 h-6 text-textLight rounded-lg transition-all p-1 inline-flex
