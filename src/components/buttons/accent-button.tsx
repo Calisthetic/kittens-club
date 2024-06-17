@@ -21,7 +21,7 @@ export default function AccentButton(props:LinkProps|ButtonProps) {
     <button type={props.type} onClick={props.click ?? (() => {})} className="p-[3px] relative max-w-min">
       <div className="inset-0 p-0.5 w-fit bg-gradient-to-r from-red-500 to-rose-800 rounded-lg">
         <div className="px-8 py-2 w-fit rounded-[6px] font-semibold hover:text-background-secondary bg-background 
-        relative group transition duration-200 hover:bg-transparent">
+        relative group transition duration-200 hover:bg-transparent text-nowrap">
           {props.children}
         </div>
       </div>
@@ -30,7 +30,7 @@ export default function AccentButton(props:LinkProps|ButtonProps) {
     <Link href={props.href} className="p-[3px] relative max-w-min">
       <div className="inset-0 p-0.5 w-fit bg-gradient-to-r from-red-500 to-rose-800 rounded-lg">
         <div className="px-8 py-2 w-fit rounded-[6px] font-semibold hover:text-background-secondary bg-background 
-        relative group transition duration-200 hover:bg-transparent">
+        relative group transition duration-200 hover:bg-transparent text-nowrap">
           {props.children}
         </div>
       </div>

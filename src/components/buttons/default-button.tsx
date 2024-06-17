@@ -21,11 +21,11 @@ export default function DefaultButton(props:LinkProps|ButtonProps) {
     <button type={props.type} onClick={props.click ?? (() => {})} 
     className="font-semibold text-foreground transition-colors max-w-min
     border border-border hover:border-foreground-accent hover:bg-foreground-accent 
-    rounded-lg text-sm px-8 py-2 text-center">{props.children}</button>
+    rounded-lg text-sm px-8 py-2 text-center text-nowrap">{props.children}</button>
   ) : (
     <Link href={props.href} 
     className="font-semibold text-foreground transition-colors max-w-min
     border border-border hover:border-foreground-accent hover:bg-foreground-accent 
-    rounded-lg text-sm px-8 py-2 text-center">{props.children}</Link>
+    rounded-lg text-sm px-8 py-2 text-center text-nowrap">{props.children}</Link>
   )
 }
