@@ -7,6 +7,12 @@ module.exports = {
         port: '3000',
         pathname: '/api/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'kittens-club.vercel.app',
+        port: '',
+        pathname: '/api/**',
+      },
     ],
   },
 }
