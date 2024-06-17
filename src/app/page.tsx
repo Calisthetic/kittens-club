@@ -14,7 +14,7 @@ export default function Page () {
 
     setIsLoading(true);
 
-    await fetch(process.env.NEXT_PUBLIC_API_URL + `/api/cats?offset=${index}0&limit=10`)
+    await fetch(`/api/cats?offset=${index}0&limit=10`)
       .then(res => res.json())
       .then((data) => {
         if (data.length > 0) {
@@ -64,7 +64,7 @@ export default function Page () {
       <div className="grid grid-cols-2 sm:grid-cols-3 p-1 lg:grid-cols-4 xl:grid-cols-6 max-w-7xl">
         {items.map((item) => (
           <div key={item.id} className='w-fill relative p-1 min-h-max'>
-            <Image src={'/api/cats/' + item.id + '/image'} alt={'cat ' + item.id} 
+            <Image src={process.env.NEXT_PUBLIC_API_URL + '/api/cats/' + item.id + '/image'} alt={'cat ' + item.id} 
             height={1000}
             width={1000}
             priority={false}
