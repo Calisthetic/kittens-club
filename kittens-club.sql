@@ -18,8 +18,8 @@ CREATE TABLE `cats` (
   FOREIGN KEY (`user_id`) REFERENCES `users`(`user_id`)
 );
 
-CREATE TABLE `elected_cats` (
-  `elected_cat_id` INT AUTO_INCREMENT PRIMARY KEY COMMENT 'Elected Cat ID',
+CREATE TABLE `favorite_cats` (
+  `favorite_cat_id` INT AUTO_INCREMENT PRIMARY KEY COMMENT 'Favorite Cat ID',
   `user_id` INT NOT NULL COMMENT 'User ID',
   `cat_id` INT NOT NULL COMMENT 'Cat ID',
   FOREIGN KEY (`user_id`) REFERENCES `users`(`user_id`),

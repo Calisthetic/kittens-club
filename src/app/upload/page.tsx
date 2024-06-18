@@ -2,56 +2,50 @@
 
 import AccentButton from "@/components/buttons/accent-button"
 import DefaultButton from "@/components/buttons/default-button"
-import Link from "next/link"
 import { useRef, useState } from "react"
-import { Blob } from "buffer";
-import fs from "fs";
 
 export default function UploadPage() {
   const [selectedFiles, setSelectedFiles] = useState<FileList>()
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const nameInputRef = useRef<HTMLInputElement>(null)
 
   async function handleSubmit(event:any) {
     event.preventDefault();
     const formData = new FormData(event.target);
-    console.log(formData)
-    for (let i = 0; i < (fileInputRef.current?.files?.length ?? 0); i++) {
-      if (fileInputRef.current?.files) {
-        console.log(fileInputRef.current?.files[i])
-        // let buffer = fs.readFileSync(fileInputRef.current?.files[i]);
-        // let blob = new Blob([buffer]);
-        // formData.append("files", fileInputRef.current?.files[i])
+
+    await fetch('/api/cats', {
+      method: 'POST',
+      body: formData,
+    }).then(res => {
+      if (res.ok) {
+        fileInputRef.current!.value = ""
+        nameInputRef.current!.value = ""
+        setSelectedFiles(undefined)
+        return res.json()
+      } else {
+        throw new Error()
       }
-    }
-    console.log(formData.values().next().value)
-    const response = await fetch('/api/cats', { // Замените URL на ваш
-      method: 'POST', // Метод запроса
-      body: formData, // Тело запроса содержит данные формы
-    });
-    console.log(response)
-    // let xhr = new XMLHttpRequest();
-    // // отслеживаем процесс отправки
-    // xhr.upload.onprogress = function(event) {
-    //   console.log(`Отправлено ${event.loaded} из ${event.total}`);
-    // };
-
-    // // Ждём завершения: неважно, успешного или нет
-    // xhr.onloadend = function() {
-    //   if (xhr.status == 200) {
-    //     console.log("Успех");
-    //   } else {
-    //     console.log("Ошибка " + this.status);
-    //   }
-    // };
-
-    // xhr.open("POST", "/api/cats");
-    // xhr.send(formData);
+    }).catch(error => alert(error));
   }
 
   return (
     <div className="min-h-[calc(100vh-48px)] w-full flex justify-center">
       <div className="w-full px-2 py-8">
         <form onSubmit={handleSubmit} className="flex *:w-full flex-col items-center gap-y-2">
+          <label className="block text-sm sm:text-base mt-2 font-medium max-w-80 leading-6">
+            Cat name (if exists):
+            <input name="cat_name" type="text" ref={nameInputRef}
+            className="block w-full px-2 py-1.5 border text-sm sm:text-base sm:leading-6 
+            text-black rounded-md bg-white border-border" />
+          </label>
+          <label className="flex items-center cursor-pointer max-w-80 mb-4">
+            <input type="checkbox" name="is_public" className="sr-only peer" defaultChecked/>
+            <div className="relative w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 
+            peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white 
+            after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 
+            after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-icon"></div>
+            <span className="ms-3 text-sm font-medium">Make it public</span>
+          </label>
           <input type="file" onInput={(e:any) => setSelectedFiles(e.target.files)} id="files-input"
           className="hidden" name="files" multiple={true} ref={fileInputRef} accept="image/png, image/jpeg"></input>
           <DefaultButton type="button" isButton click={() => fileInputRef.current?.click()}>Upload</DefaultButton>

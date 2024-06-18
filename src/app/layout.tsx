@@ -5,6 +5,7 @@ import Header from "@/components/header";
 import { auth } from "../lib/auth";
 import { ThemeProvider } from "next-themes";
 import Providers from "./providers";
+import { SessionProvider } from "next-auth/react";
 
 const play = Roboto({ weight: "400", subsets: ['latin'] });
 
@@ -25,9 +26,9 @@ export default async function RootLayout({
       <body className={play.className}>
         <Providers>
           <Header username={session?.user?.name ?? null}></Header>
-          <main className="md:ml-64 transition-all duration-400 md:rounded-tl-2xl min-h-[calc(100vh-48px)] bg-background-second">
+          <div className="md:ml-64 transition-all duration-400 md:rounded-tl-2xl min-h-[calc(100vh-48px)] bg-background-second">
             {children}
-          </main>
+          </div>
         </Providers>
       </body>
     </html>

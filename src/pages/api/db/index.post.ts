@@ -9,7 +9,7 @@ export default async function PostTables(
   
   const dropQueries = [
     `DROP TABLE IF EXISTS liked_cats;`,
-    `DROP TABLE IF EXISTS elected_cats;`,
+    `DROP TABLE IF EXISTS favorite_cats;`,
     `DROP TABLE IF EXISTS tags_of_cats;`,
     `DROP TABLE IF EXISTS tags;`,
     `DROP TABLE IF EXISTS tag_categories;`,
@@ -30,7 +30,6 @@ export default async function PostTables(
       \`cat_id\` INT AUTO_INCREMENT PRIMARY KEY COMMENT 'Cat ID',
       \`user_id\` INT NOT NULL COMMENT 'User ID',
       \`cat_name\` VARCHAR(255) COMMENT 'Cat Name',
-      \`is_kitten\` TINYINT(1) DEFAULT FALSE COMMENT 'Is Kitten',
       \`is_private\` TINYINT(1) DEFAULT FALSE COMMENT 'Is Private',
       \`image\` MEDIUMBLOB COMMENT 'Image',
       FOREIGN KEY (\`user_id\`) REFERENCES \`users\`(\`user_id\`)
@@ -42,8 +41,8 @@ export default async function PostTables(
       FOREIGN KEY (\`user_id\`) REFERENCES \`users\`(\`user_id\`),
       FOREIGN KEY (\`cat_id\`) REFERENCES \`cats\`(\`cat_id\`)
     );`,
-    `CREATE TABLE \`elected_cats\` (
-      \`elected_cat_id\` INT AUTO_INCREMENT PRIMARY KEY COMMENT 'Elected Cat ID',
+    `CREATE TABLE \`favorite_cats\` (
+      \`favorite_cat_id\` INT AUTO_INCREMENT PRIMARY KEY COMMENT 'Favorite Cat ID',
       \`user_id\` INT NOT NULL COMMENT 'User ID',
       \`cat_id\` INT NOT NULL COMMENT 'Cat ID',
       FOREIGN KEY (\`user_id\`) REFERENCES \`users\`(\`user_id\`),

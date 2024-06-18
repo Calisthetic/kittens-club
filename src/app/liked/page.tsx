@@ -1,7 +1,15 @@
+"use server"
+
+import { auth } from "@/lib/auth";;
+import { Suspense } from "react";
+import LikedPage from "./page.client";
+
 export default async function Page() {
+  const session = await auth()
+
   return (
-    <div className="min-h-[calc(100vh-48px)] w-full flex justify-center items-center">
-      liked
-    </div>
+    <Suspense fallback={<div></div>}>
+      <LikedPage userName={session?.user?.name}></LikedPage>
+    </Suspense>
   )
 }

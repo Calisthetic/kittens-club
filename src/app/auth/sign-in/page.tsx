@@ -29,30 +29,18 @@ export default function SignInPage() {
         <form action={(formData) => {
           SignIn(formData).then(() => {setIsRedirect(true)}).catch((error) => console.log(error))
         }}
-        // onSubmit={async (e) => {
-        //   e.preventDefault()
-
-        //   await fetch("/api/auth/signin", {
-        //     method: "POST",
-        //     headers: {
-        //       "Content-Type": "application/json"
-        //     },
-        //     body: JSON.stringify({
-        //       password: passwordRef.current?.value,
-        //       username: usernameRef.current?.value
-        //     })
-        //   }).then(res => {if (res.ok) {redirect("/")}})
-        // }} 
         className="w-full flex flex-col items-center *:w-full">
           <label className="block text-sm sm:text-base mt-2 font-medium leading-6">
             Username
             <input name="username" type="username" ref={usernameRef}
-            className="block w-full pl-2 py-1.5 border-1 text-sm sm:text-base sm:leading-6 rounded-md" />
+            className="block w-full px-2 py-1.5 border text-sm sm:text-base sm:leading-6 
+          text-black rounded-md bg-white border-border" />
           </label>
           <label className="block text-sm sm:text-base mt-2 font-medium leading-6 mb-4">
             Password
             <input name="password" type="password" ref={passwordRef}
-            className="block w-full pl-2 py-1.5 border-1 text-sm sm:text-base sm:leading-6 rounded-md" />
+            className="block w-full px-2 py-1.5 border text-sm sm:text-base sm:leading-6 
+          text-black rounded-md bg-white border-border" />
           </label>
           <AccentButton isButton type="submit"><span>Sign In</span></AccentButton>
         </form>

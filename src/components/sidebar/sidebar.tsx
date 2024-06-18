@@ -162,7 +162,8 @@ export default function Sidebar({isOpen, username, close}
               transition={{delay: 0.34, stiffness: 300, damping: 24}}
               className="w-full h-[1px] bg-border rounded"></motion.li>
               <li className="w-full h-0.5"></li>
-              {
+              
+              {/* {
                 username === "admin" ? (
                   <motion.li initial={{y: 20, opacity: 0}} animate={{y: 0, opacity: 1}}
                   transition={{delay: 0.36, stiffness: 300, damping: 24}}>
@@ -195,7 +196,8 @@ export default function Sidebar({isOpen, username, close}
                     </Link>
                   </motion.li>
                 ) : null
-              }
+              } */}
+
               <motion.li initial={{y: 20, opacity: 0}} animate={{y: 0, opacity: 1}}
               transition={{delay: 0.38, stiffness: 300, damping: 24}}>
                 <Link href="/help" className="flex items-center p-1.5 sm:p-2 transition-all

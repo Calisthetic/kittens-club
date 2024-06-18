@@ -22,7 +22,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
  
         // logic to verify if user exists
         user = await dataService.singleQuery(`
-          SELECT user_name AS name, email FROM users WHERE password='${pwHash}' AND user_name='${credentials.username}'
+          SELECT user_name AS name, email, user_id AS id FROM users WHERE password='${pwHash}' AND user_name='${credentials.username}'
         `)
  
         if (user.result.length === 0) {

@@ -30,10 +30,11 @@ export default function Header({username}:{username:string|null}) {
   const pathname = usePathname();
   const isFirstLoad = useRef(true)
   useEffect(() => {
-    if (!isFirstLoad)
+    if (isFirstLoad.current === false && window.innerWidth <= 768) {
       setIsSideBarOpen(false)
-    else
-    isFirstLoad.current = false
+    } else {
+      isFirstLoad.current = false
+    }
   }, [pathname]);
 
   useEffect(()=>{
@@ -72,7 +73,7 @@ export default function Header({username}:{username:string|null}) {
     var currentY = e.touches[0].clientY;
     var diffY = initialY.current - currentY;
 
-    if (diffY < 80) {
+    if (diffY < 80 && window.innerWidth <= 768) {
       if (diffX > 80) {
         // swiped left
         if (isSideBarOpen)
@@ -88,12 +89,12 @@ export default function Header({username}:{username:string|null}) {
   return (
     <>
       <Sidebar isOpen={isSideBarOpen} username={username} close={() => setIsSideBarOpen(false)}></Sidebar>
-      <header className="w-full z-20 h-12 px-3 flex justify-between items-center">
-        <div className="block md:hidden h-8">
+      <div className="w-full z-20 h-12 px-3 flex justify-between items-center">
+        <div className="block md:*hidden h-8">
           <SidebarButton isActive={isSideBarOpen} onClick={() => setIsSideBarOpen(x => !x)}></SidebarButton>
         </div>
         <ThemeSwitcher></ThemeSwitcher>
-      </header>
+      </div>
     </>
   )
 }

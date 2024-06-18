@@ -14,8 +14,6 @@ const config: Config = {
         "background-hover": "var(--backgroundHover)",
         "foreground": "var(--foreground)",
         "foreground-second": "var(--foregroundSecond)",
-        "foreground-hover": "var(--foregroundHover)",
-        "foreground-accent": "var(--foregroundAccent)",
         "accent": "var(--accent)",
         "border": "var(--border)",
         "button": "var(--button)",

@@ -1,0 +1,64 @@
+.questionBox {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  position: relative;
+}
+@media (max-width: 640px) {
+  .questionBox:not(:last-child) {
+    border-bottom: 1px solid var(--border);
+  }
+}
+.questionIcon {
+  width: 24px;
+  display: flex;
+  justify-content: center;
+  transition: all .3s ease;
+}
+.invisibleInput:checked ~ * > .questionIcon {
+  transform: scale(1, -1);
+}
+.questionTitle {
+  padding: 4px 8px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 18px;
+  font-weight: 400;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  border-bottom: 1px solid var(--foreground-accent);
+}
+.answerBox {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition-property: all;
+  transition-duration: 0.5s;
+  transition-timing-function: ease;
+}
+.answerText {
+  overflow: hidden;
+  font-size: 16px;
+  font-weight: 500;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  padding: 0px 4px;
+}
+.questionBox:has(.invisibleInput:checked) .answerBox {
+  grid-template-rows: 1fr;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+.invisibleInput {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}

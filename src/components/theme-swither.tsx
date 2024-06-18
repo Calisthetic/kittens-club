@@ -2,15 +2,21 @@
 
 import { AnimatePresence, motion } from "framer-motion"
 import { useTheme } from "next-themes"
+import { useEffect, useState } from "react"
 
 export default function ThemeSwitcher() {
   const { theme, setTheme } = useTheme()
+  
+  const [isClient, setIsClient] = useState(false)
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
 
-  return (
+  return isClient ? (
     <button onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}>
       <AnimatePresence>
         {theme === "dark" ? (
-          <motion.div initial={{y:10, opacity:0}} animate={{y:0, opacity:1}} 
+          <motion.span initial={{y:10, opacity:0}} animate={{y:0, opacity:1}} 
           transition={{damping:24, stiffness:300}}>
             <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" 
             className="h-6 w-6 fill-foreground stroke-none">
@@ -46,7 +52,7 @@ export default function ThemeSwitcher() {
               8.69993C11.0403 8.69993 11.6 8.14028 11.6 7.44993C11.6 6.75976 11.0406 6.20024 10.3505 6.19993C10.3853 5.90487 
               10.4032 5.60464 10.4032 5.30023Z" fillRule="evenodd" clipRule="evenodd"></path>
             </svg>
-          </motion.div>
+          </motion.span>
         ) : (
           <motion.section initial={{y:-10, opacity:0}} animate={{y:0, opacity:1}} 
           transition={{damping:24, stiffness:300}}>
@@ -72,5 +78,5 @@ export default function ThemeSwitcher() {
         )}
       </AnimatePresence>
     </button>
-  )
+  ) : null
 }
