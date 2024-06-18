@@ -39,11 +39,17 @@ export default function SearchPage ({userName}:{userName:string|null|undefined})
         username: userName
       })
     })
-    .then(res => res.json())
+    .then(res => {
+      if (res.ok) {
+        return res.json()
+      } else {
+        throw new Error()
+      }
+    })
     .then((data) => {
       if (data.length > 0) {
         setItems((prevItems) => [...prevItems, ...data]);
-      } else if (data.length < itemsPerRequest) {
+      } else {
         setIsFinal(true);
       }
     })
@@ -93,6 +99,7 @@ export default function SearchPage ({userName}:{userName:string|null|undefined})
     if ((scrollTop + clientHeight >= scrollHeight - 100 && !isLoading && !isFinal) || scrollHeight === clientHeight) {
       fetchData();
     }
+    console.log("scroll")
   };
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
