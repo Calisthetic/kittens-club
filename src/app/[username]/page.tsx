@@ -1,17 +1,17 @@
-import { signOut } from "../../lib/auth"
+"use server"
 
-export default function SignOutPage() {
-  return (
-    <div className="min-h-[calc(100vh-48px)] w-full flex justify-center items-center">
-      <h5>Profile?</h5>
-      <form
-        action={async (formData) => {
-          "use server"
-          await signOut({redirect: true, redirectTo: '/'})
-        }}
-      >
-        <button type="submit">Sign out</button>
-      </form>
-    </div>
+import { auth } from "@/lib/auth";
+import ProfilePage from "./page.client";
+import { Suspense } from "react";
+
+export default async function Page({params: {username}}:any) {
+  const session = await auth()
+  
+  return session?.user?.name === username ? (
+    <Suspense fallback={<div></div>}>
+      <ProfilePage userName={session?.user?.name}></ProfilePage>
+    </Suspense>
+  ) : (
+    <div className="flex justify-center text-xl pt-4">Wrong user</div>
   )
 }

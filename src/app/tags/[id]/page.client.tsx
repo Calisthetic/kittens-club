@@ -1,12 +1,13 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import style from "./tags.module.css"
+import style from "./../tags.module.css"
 import Modal from "@/components/modal"
 import DefaultButton from "@/components/buttons/default-button"
 import Loading from "@/components/loading"
-import ImageCatCard from "./image-card"
 import AccentButton from "@/components/buttons/accent-button"
+import ImageCatCard from "../image-card"
+import { useRouter } from "next/navigation"
 import ModalError from "@/components/modal-error"
 
 type Tag = {
@@ -19,10 +20,11 @@ type Cat = {
   id: number
   liked_by_user_id?:number
   name: string
-  is_public: boolean
+  is_private: boolean
+  tags:number[]
 }
 
-export default function TagsPage({userName}:{userName:string|undefined|null}) {
+export default function TagsPage({userName, catId}:{userName:string|undefined|null, catId:number}) {
   const [selectedTagCategory, setSelectedCategory] = useState<number>()
   const [isAddCategoryModalOpen, setIsAddCategoryModalOpen] = useState(false)
   const [errorText, setErrorText] = useState<string>('')
@@ -30,6 +32,8 @@ export default function TagsPage({userName}:{userName:string|undefined|null}) {
   const addCategoryRef = useRef<HTMLInputElement>(null)
   const nameInputRef = useRef<HTMLInputElement>(null)
   const isPublicInputRef = useRef<HTMLInputElement>(null)
+
+  const router = useRouter()
   
   const [selectedTags, setSelectedTags] = useState<number[]>([])
   const [tags, setTags] = useState<any[]|null>()
@@ -101,20 +105,10 @@ export default function TagsPage({userName}:{userName:string|undefined|null}) {
 
 
 
-  const [isNext, setIsNext] = useState(true)
   const [currentCat, setCurrentCat] = useState<Cat|undefined>()
-  const nextCat = useRef()
   useEffect(()=>{
     const getData = async () => {
-      await fetch('/api/cats/manage', {
-        method: 'POST',
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          username: userName
-        })
-      })
+      await fetch('/api/cats/' + catId+ "?username=" + userName)
       .then(res => {
         if (res.ok) {
           return res.json()
@@ -122,46 +116,14 @@ export default function TagsPage({userName}:{userName:string|undefined|null}) {
           throw new Error()
         }
       })
-      .then(data => {
+      .then((data:Cat) => {
         setCurrentCat(data)
+        setSelectedTags(data.tags)
       })
       .catch(() => setErrorText("Failed to get cat"))
     }
     getData()
   }, [])
-
-  useEffect(()=>{
-    if (nextCat.current) {
-      setCurrentCat(nextCat.current)
-    }
-    const getData = async () => {
-      await fetch('/api/cats/manage', {
-        method: 'POST',
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          username: userName,
-          offset: 1
-        })
-      })
-      .then(res => {
-        if (res.ok) {
-          return res.json()
-        } else {
-          throw new Error()
-        }
-      })
-      .then(data => {
-        nextCat.current = data
-      })
-      .catch(() => setErrorText("Failed to get cat"))
-    }
-    setSelectedTags([])
-    if (nameInputRef.current)
-      nameInputRef.current!.value = ''
-    getData()
-  }, [isNext])
 
   async function SaveChanges() {
     if (!currentCat || !isPublicInputRef.current || !nameInputRef.current) {
@@ -181,7 +143,7 @@ export default function TagsPage({userName}:{userName:string|undefined|null}) {
     })
     .then(res => {
       if (res.ok) {
-        setIsNext(x => !x)
+        router.push(`/${userName}`)
       } else {
         throw new Error()
       }
@@ -202,7 +164,7 @@ export default function TagsPage({userName}:{userName:string|undefined|null}) {
                 liked={currentCat.liked_by_user_id !== null} favorite={currentCat.favorite_by_user_id !== null}></ImageCatCard>
               </div>
               <div className="mt-1">
-                <AccentButton isButton type="button" click={SaveChanges}>Next</AccentButton>
+                <AccentButton isButton type="button" click={SaveChanges}>Save</AccentButton>
               </div>
             </>
           ) : (
@@ -215,13 +177,13 @@ export default function TagsPage({userName}:{userName:string|undefined|null}) {
           {tags ? (
             <div className="max-w-xs h-full min-w-[300px] px-2 py-1 lg:border-l border-border">
               <label className="block text-sm sm:text-base mt-2 font-medium max-w-80 leading-6">
-                Cat name (if exists):
+                New cat name:
                 <input name="cat_name" type="text" ref={nameInputRef} defaultValue={currentCat?.name}
                 className="block w-full px-2 py-1.5 border text-sm sm:text-base sm:leading-6 
-                text-black rounded-md bg-white border-border" />
+                text-black rounded-md bg-white border-border" autoComplete="off"/>
               </label>
               <label className="flex items-center cursor-pointer max-w-80 my-2">
-                <input type="checkbox" name="is_public" className="sr-only peer" ref={isPublicInputRef} defaultChecked={currentCat?.is_public ?? true}/>
+                <input type="checkbox" name="is_public" className="sr-only peer" ref={isPublicInputRef} defaultChecked={currentCat?.is_private ?? true}/>
                 <div className="relative w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 
                 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white 
                 after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 

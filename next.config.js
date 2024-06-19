@@ -16,4 +16,5 @@ module.exports = {
     ],
   },
   transpilePackages: ['next-auth'],
+  reactStrictMode: false
 }

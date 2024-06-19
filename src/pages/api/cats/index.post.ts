@@ -27,12 +27,18 @@ export default async function PostCats(
       if (!files.files.length || files.files.length === 0) {
         return res.status(400).send({message: 'Unable to read files'})
       }
+      const userResult:any = await dataService.singleQuery(`
+        SELECT user_id FROM users WHERE user_name = '${fields.username[0]}'
+      `)
+      if (userResult.result.length === 0) {
+        return res.status(400).send({message: 'User not found'})
+      }
 
       for (let i = 0; i < files.files.length; i++) {
         const data = fs.readFileSync(files.files[i].filepath);//
         await dataService.singleQuery(`
-          INSERT INTO cats (user_id, image, is_private, cat_name) VALUES (1, ?, ?, ?)
-        `, [data, fields.is_public && fields.is_public[0] !== 'on', fields.cat_name && fields.cat_name[0]]);
+          INSERT INTO cats (user_id, image, is_private, cat_name) VALUES (?, ?, ?, ?)
+        `, [userResult.result[0].user_id, data, fields.is_public && fields.is_public[0] !== 'on', fields.cat_name && fields.cat_name[0]]);
       }
 
       return res.status(200).send({});

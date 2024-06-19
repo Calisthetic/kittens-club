@@ -3,12 +3,14 @@
 import React, { useState, useEffect, useCallback } from "react";
 import Loading from "@/components/loading";
 import CatCard from "@/components/cat-card";
+import ModalError from "@/components/modal-error";
 
 export default function LikedPage ({userName}:{userName:string|null|undefined}) {
   const [items, setItems] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isFinal, setIsFinal] = useState(false);
   const [index, setIndex] = useState(1);
+  const [errorText, setErrorText] = useState('')
 
   const itemsPerRequest = 12
 
@@ -36,7 +38,7 @@ export default function LikedPage ({userName}:{userName:string|null|undefined}) 
         setIsFinal(true);
       }
     })
-    .catch((err) => console.log(err));
+    .catch(() => setErrorText("Failed to get your liked cats"));
     setIndex((prevIndex) => prevIndex + 1);
 
     setIsLoading(false);
@@ -64,12 +66,11 @@ export default function LikedPage ({userName}:{userName:string|null|undefined}) 
         }
       })
       .then(data => setItems(data))
-      .catch(error => console.log(error))
+      .catch(() => setErrorText('Failed to get your liked cats'))
       setIsLoading(false);
     };
 
     getData();
-    handleScroll()
     handleScroll()
   }, []);
 
@@ -92,14 +93,16 @@ export default function LikedPage ({userName}:{userName:string|null|undefined}) 
   return (
     <div className="flex min-h-[calc(100vh-48px)] flex-col items-center">
       <div className="max-w-7xl w-full">
-        <div className="grid grid-cols-2 sm:grid-cols-3 p-1 mt-2 lg:grid-cols-4 xl:grid-cols-6">
+        <div className="grid grid-cols-2 sm:grid-cols-3 p-1 lg:grid-cols-4 xl:grid-cols-6">
           {items ? items.map((item, index) => (
-            <CatCard key={index} catId={item.id} catName={item.name} userName={userName} 
+            <CatCard key={index} catId={item.id} catName={item.name} userName={userName} allowEdit={false}
             liked={item.liked_by_user_id !== null} favorite={item.favorite_by_user_id !== null}></CatCard>
           )) : null}
         </div>
       </div>
       {(isLoading && !isFinal) && <Loading></Loading>}
+
+      <ModalError close={() => setErrorText('')} text={errorText}></ModalError>
     </div>
   );
 };

@@ -4,6 +4,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import style from "./search.module.css"
 import Loading from "@/components/loading";
 import CatCard from "@/components/cat-card";
+import ModalError from "@/components/modal-error";
 
 type Tag = {
   tag_id: number
@@ -15,6 +16,7 @@ export default function SearchPage ({userName}:{userName:string|null|undefined})
   const [isLoading, setIsLoading] = useState(false);
   const [isFinal, setIsFinal] = useState(false);
   const [index, setIndex] = useState(1);
+  const [errorText, setErrorText] = useState('')
 
   const [searchText, setSearchText] = useState('')
   const [selectedTags, setSelectedTags] = useState<number[]>([])
@@ -53,7 +55,7 @@ export default function SearchPage ({userName}:{userName:string|null|undefined})
         setIsFinal(true);
       }
     })
-    .catch((err) => console.log(err));
+    .catch(() => setErrorText('Cats not found...'));
     setIndex((prevIndex) => prevIndex + 1);
 
     setIsLoading(false);
@@ -83,9 +85,8 @@ export default function SearchPage ({userName}:{userName:string|null|undefined})
         }
       })
       .then(data => setItems(data))
-      .catch(error => console.log(error))
+      .catch(() => setErrorText('Cats not found...'))
       setIsLoading(false);
-      handleScroll()
       handleScroll()
     };
 
@@ -169,14 +170,16 @@ export default function SearchPage ({userName}:{userName:string|null|undefined})
             </div>
           )) : null}
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 p-1 mt-2 lg:grid-cols-4 xl:grid-cols-6">
+        <div className="grid grid-cols-2 sm:grid-cols-3 p-1 lg:grid-cols-4 xl:grid-cols-6">
           {items ? items.map((item, index) => (
-            <CatCard key={index} catId={item.id} catName={item.name} userName={userName} 
+            <CatCard key={index} catId={item.id} catName={item.name} userName={userName} allowEdit={false}
             liked={item.liked_by_user_id !== null} favorite={item.favorite_by_user_id !== null}></CatCard>
           )) : null}
         </div>
       </div>
       {(isLoading && !isFinal) && <Loading></Loading>}
+
+      <ModalError close={() => setErrorText('')} text={errorText}></ModalError>
     </div>
   );
 };

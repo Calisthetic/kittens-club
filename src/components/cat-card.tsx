@@ -1,10 +1,11 @@
 "use client"
 
 import Image from 'next/image'
+import Link from 'next/link';
 import { useRef, useState } from 'react';
 
-export default function CatCard({catId, catName, userName, liked, favorite}
-:{catId:number, catName:string, userName:string|null|undefined, liked: boolean, favorite:boolean}) {
+export default function CatCard({catId, catName, userName, liked, favorite, allowEdit}
+:{catId:number, catName:string, userName:string|null|undefined, liked: boolean, favorite:boolean, allowEdit:boolean|undefined}) {
   const [isUpdate, setIsUpdate] = useState<boolean>(true)
   const likedRef = useRef(liked)
   const favoriteRef = useRef(favorite)
@@ -120,7 +121,7 @@ export default function CatCard({catId, catName, userName, liked, favorite}
             </button>
           )}
           {favoriteRef.current ? (
-            <button className='absolute top-[calc(100%-26px)] left-[calc(100%-26px)] stroke-white fill-white' onClick={() => Favorite(catId)}>
+            <button className='absolute top-[calc(100%-26px)] left-[calc(100%-26px)]' onClick={() => Favorite(catId)}>
               <svg enableBackground="new 0 0 32 32" version="1.1" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"
               className='stroke-2 fill-while h-6 w-6 stroke-white'>
                 <path d="M23.8,2H8.2C6.5,2,5.1,3.4,5.1,5.1v24.6c0,0.2,0.2,0.3,0.4,0.3l10.4-4.5c0.1,0,0.2,0,0.2,0 
@@ -128,7 +129,7 @@ export default function CatCard({catId, catName, userName, liked, favorite}
               </svg>
             </button>
           ) : (
-            <button className='absolute top-[calc(100%-26px)] left-[calc(100%-26px)] stroke-white fill-white' onClick={() => Favorite(catId)}>
+            <button className='absolute top-[calc(100%-26px)] left-[calc(100%-26px)]' onClick={() => Favorite(catId)}>
               <svg enableBackground="new 0 0 32 32" version="1.1" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"
               className='stroke-2 fill-none h-6 w-6 stroke-white'>
                 <path d="M23.8,2H8.2C6.5,2,5.1,3.4,5.1,5.1v24.6c0,0.2,0.2,0.3,0.4,0.3l10.4-4.5c0.1,0,0.2,0,0.2,0 
@@ -137,6 +138,15 @@ export default function CatCard({catId, catName, userName, liked, favorite}
             </button>
           )}
           </>
+        ) : null}
+        {allowEdit ? (
+          <Link href={'/tags/' + catId} className='absolute top-0 left-0'>
+            <svg strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" 
+            viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className='h-6 w-6 stroke-white fill-none'>
+              <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+              <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+            </svg>
+          </Link>
         ) : null}
         <button className='absolute top-0.5 left-[calc(100%-26px)]' onClick={() => Download(catId)}>
           <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"

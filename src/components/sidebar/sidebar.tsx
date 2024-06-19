@@ -273,7 +273,7 @@ export default function Sidebar({isOpen, username, close}
                 className="p-2 sm:p-4 mt-4 sm:mt-6 transition rounded-lg bg-background-second 
                 text-sm shadow-shadow">
                   <div className="flex items-center mb-3 justify-between">
-                    <div className="font-semibold mr-2 px-1 sm:px-2 py-0.5 rounded bg-accent text-sm">{username ? "New!" : "Info"}</div>
+                    <div className="font-medium mr-2 px-1 sm:px-2 py-0.5 rounded bg-accent text-sm">{username ? "New!" : "Info"}</div>
                     <button onClick={() => {setIsAdOpen(false)}} type="button" id="cloase-ad" aria-label="Close ad"
                     className="ml-auto sm:-mx-1.5 -my-1.5
                     justify-center items-center w-6 h-6 text-textLight rounded-lg transition-all p-1 inline-flex

@@ -41,6 +41,8 @@ export default function ImageCatCard({catId, catName, userName, liked, favorite}
   }
 
   const Favorite = async (id:number) => {
+    favoriteRef.current = !favoriteRef.current
+    setIsUpdate(x => !x)
     await fetch(`/api/cats/${id}/favorite`, {
       method: 'PATCH',
       headers: {
@@ -52,10 +54,10 @@ export default function ImageCatCard({catId, catName, userName, liked, favorite}
     })
     .then(resp => {
       if (resp.ok) {
-        favoriteRef.current = !favoriteRef.current
-        setIsUpdate(x => !x)
         return resp.json()
       } else {
+        favoriteRef.current = !favoriteRef.current
+        setIsUpdate(x => !x)
         throw new Error('something went wrong')
       }
     })
@@ -65,6 +67,8 @@ export default function ImageCatCard({catId, catName, userName, liked, favorite}
   }
 
   const Like = async (id:number) => {
+    likedRef.current = !likedRef.current
+    setIsUpdate(x => !x)
     await fetch(`/api/cats/${id}/like`, {
       method: 'PATCH',
       headers: {
@@ -76,10 +80,10 @@ export default function ImageCatCard({catId, catName, userName, liked, favorite}
     })
     .then(resp => {
       if (resp.ok) {
-        likedRef.current = !likedRef.current
-        setIsUpdate(x => !x)
         return resp.json()
       } else {
+        likedRef.current = !likedRef.current
+        setIsUpdate(x => !x)
         throw new Error('something went wrong')
       }
     })

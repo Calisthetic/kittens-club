@@ -1,16 +1,16 @@
 "use client"
 
 import AccentButton from "@/components/buttons/accent-button";
+import ModalError from "@/components/modal-error";
 import { SignIn } from "@/lib/auth-action";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 export default function SignInPage() {
-  //const session = await auth()
-  //console.log(session
   const passwordRef = useRef<HTMLInputElement>(null)
   const usernameRef = useRef<HTMLInputElement>(null)
+  const [errorText, setErrorText] = useState('')
 
   const [isRedirect, setIsRedirect] = useState(false)
   useEffect(()=>{
@@ -27,7 +27,7 @@ export default function SignInPage() {
         </div>
 
         <form action={(formData) => {
-          SignIn(formData).then(() => {setIsRedirect(true)}).catch((error) => console.log(error))
+          SignIn(formData).then(() => {setIsRedirect(true)}).catch(() => setErrorText('Wrong credentials'))
         }}
         className="w-full flex flex-col items-center *:w-full">
           <label className="block text-sm sm:text-base mt-2 font-medium leading-6">
@@ -51,6 +51,8 @@ export default function SignInPage() {
           hover:text-buttonHoverLight dark:hover:text-buttonHoverDark ml-1">Join now!</Link>
         </div>
       </div>
+
+      <ModalError close={() => setErrorText('')} text={errorText}></ModalError>
     </div>
   )
 }
