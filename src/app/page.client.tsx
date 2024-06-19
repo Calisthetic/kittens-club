@@ -67,7 +67,6 @@ export default function MainPage ({userName}:{userName:string|null|undefined}) {
       .catch(error => console.log(error))
       setIsLoading(false);
       handleScroll()
-      handleScroll()
     };
 
     getData();
