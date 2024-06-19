@@ -49,7 +49,7 @@ export default function SearchPage ({userName}:{userName:string|null|undefined})
     .then((data) => {
       if (data.length > 0) {
         setItems((prevItems) => [...prevItems, ...data]);
-      } else {
+      } else if (data.length < itemsPerRequest) {
         setIsFinal(true);
       }
     })
@@ -99,7 +99,6 @@ export default function SearchPage ({userName}:{userName:string|null|undefined})
     if ((scrollTop + clientHeight >= scrollHeight - 100 && !isLoading && !isFinal) || scrollHeight === clientHeight) {
       fetchData();
     }
-    console.log("scroll")
   };
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);

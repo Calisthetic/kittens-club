@@ -50,12 +50,14 @@ export default async function PostTables(
     );`,
     `CREATE TABLE \`tag_categories\` (
       \`tag_category_id\` INT AUTO_INCREMENT PRIMARY KEY COMMENT 'Tag Category ID',
-      \`tag_category_name\` VARCHAR(30) NOT NULL UNIQUE COMMENT 'Name'
+      \`tag_category_name\` VARCHAR(30) NOT NULL UNIQUE COMMENT 'Name',
+      \`is_verify\` TINYINT(1) DEFAULT FALSE COMMENT 'Is Verify'
     );`,
     `CREATE TABLE \`tags\` (
       \`tag_id\` INT AUTO_INCREMENT PRIMARY KEY COMMENT 'Tag ID',
       \`tag_category_id\` INT COMMENT 'Tag Category ID',
       \`tag_name\` VARCHAR(30) NOT NULL UNIQUE COMMENT 'Name',
+      \`is_verify\` TINYINT(1) DEFAULT FALSE COMMENT 'Is Verify',
       FOREIGN KEY (\`tag_category_id\`) REFERENCES \`tag_categories\`(\`tag_category_id\`)
     );`,
     `CREATE TABLE \`tags_of_cats\` (

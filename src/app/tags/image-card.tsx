@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import { useRef, useState } from 'react';
 
-export default function CatCard({catId, catName, userName, liked, favorite}
+export default function ImageCatCard({catId, catName, userName, liked, favorite}
 :{catId:number, catName:string, userName:string|null|undefined, liked: boolean, favorite:boolean}) {
   const [isUpdate, setIsUpdate] = useState<boolean>(true)
   const likedRef = useRef(liked)
@@ -41,8 +41,6 @@ export default function CatCard({catId, catName, userName, liked, favorite}
   }
 
   const Favorite = async (id:number) => {
-    favoriteRef.current = !favoriteRef.current
-    setIsUpdate(x => !x)
     await fetch(`/api/cats/${id}/favorite`, {
       method: 'PATCH',
       headers: {
@@ -54,10 +52,10 @@ export default function CatCard({catId, catName, userName, liked, favorite}
     })
     .then(resp => {
       if (resp.ok) {
-        return resp.json()
-      } else {
         favoriteRef.current = !favoriteRef.current
         setIsUpdate(x => !x)
+        return resp.json()
+      } else {
         throw new Error('something went wrong')
       }
     })
@@ -67,8 +65,6 @@ export default function CatCard({catId, catName, userName, liked, favorite}
   }
 
   const Like = async (id:number) => {
-    likedRef.current = !likedRef.current
-    setIsUpdate(x => !x)
     await fetch(`/api/cats/${id}/like`, {
       method: 'PATCH',
       headers: {
@@ -80,10 +76,10 @@ export default function CatCard({catId, catName, userName, liked, favorite}
     })
     .then(resp => {
       if (resp.ok) {
-        return resp.json()
-      } else {
         likedRef.current = !likedRef.current
         setIsUpdate(x => !x)
+        return resp.json()
+      } else {
         throw new Error('something went wrong')
       }
     })
@@ -93,13 +89,13 @@ export default function CatCard({catId, catName, userName, liked, favorite}
   }
 
   return (
-    <div className='p-1'>
+    <>
       <div className='relative'>
         <Image src={process.env.NEXT_PUBLIC_API_URL + '/api/cats/' + catId + '/image'} alt={'cat ' + catId} 
         height={1600}
         width={1600}
         priority={false}
-        className='object-cover !w-full aspect-square rounded'></Image>
+        className='object-cover lg:max-h-[calc(100vh-120px)] sm:max-h-[100vh] !w-full rounded'></Image>
         {userName ? (
           <>
           {likedRef.current ? (
@@ -148,6 +144,6 @@ export default function CatCard({catId, catName, userName, liked, favorite}
         </button>
       </div>
       <p className='text-sm text-wrap text-center'>{catName}</p>
-    </div>
+    </>
   )
 }

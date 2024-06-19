@@ -2,6 +2,9 @@
 
 import AccentButton from "@/components/buttons/accent-button"
 import DefaultButton from "@/components/buttons/default-button"
+import Modal from "@/components/modal"
+import { AnimatePresence, motion } from "framer-motion"
+import { stagger } from "framer-motion/dom"
 import { useRef, useState } from "react"
 
 export default function UploadPage() {
@@ -25,9 +28,11 @@ export default function UploadPage() {
       } else {
         throw new Error()
       }
-    }).catch(error => alert(error));
+    }).catch(() => setErrorText('Failed to upload images'));
   }
 
+  const [errorText, setErrorText] = useState('')
+  
   return (
     <div className="min-h-[calc(100vh-48px)] w-full flex justify-center">
       <div className="w-full px-2 py-8">
@@ -51,17 +56,28 @@ export default function UploadPage() {
           <DefaultButton type="button" isButton click={() => fileInputRef.current?.click()}>Upload</DefaultButton>
           <AccentButton isButton type="submit">Send</AccentButton>
         </form>
-        {selectedFiles && selectedFiles.length > 0 ? (
-          <div className="text-center">
-            <p className="text-lg text-center mt-4">{`Selected files (${selectedFiles?.length ?? 0}):`}</p>
-            {
-              selectedFiles && Object.keys(selectedFiles).map((item, index) => (
-                <p className=" truncate text-sm text-nowrap" key={index}>{selectedFiles[index].name}</p>
-              ))
-            }
-          </div>
-        ) : null}
+        <AnimatePresence>
+          {selectedFiles && selectedFiles.length > 0 ? (
+            <div className="text-center">
+              <motion.p initial={{opacity: 0}} animate={{opacity: 1}} exit={{opacity: 0}} 
+              className="text-lg text-center mt-4">{`Selected files (${selectedFiles?.length ?? 0}):`}</motion.p>
+              {selectedFiles && Object.keys(selectedFiles).map((item, index) => (
+                <motion.p initial={{opacity: 0}} animate={{opacity: 1}} exit={{opacity: 0}}
+                className="truncate text-sm text-nowrap" key={index}>{selectedFiles[index].name}</motion.p>
+              ))}
+            </div>
+          ) : null}
+        </AnimatePresence>
       </div>
+
+      <Modal isOpen={errorText.length > 0} onClose={() => {setErrorText('')}}>
+        <div className='py-3 px-6 rounded-lg bg-background relative flex flex-col items-center w-[300px]'>
+          <h1 className=' text-center font-medium sm:whitespace-nowrap whitespace-normal'>{errorText}</h1>
+          <div className="flex flex-col mt-2">
+            <DefaultButton type="button" isButton={true} click={() => setErrorText('')}>Ok</DefaultButton>
+          </div>
+        </div>
+      </Modal>
     </div>
   )
 }
