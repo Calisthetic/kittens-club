@@ -65,7 +65,12 @@ export default function MainPage ({userName}:{userName:string|null|undefined}) {
           throw new Error("Sad...")
         }
       })
-      .then(data => setItems(data))
+      .then(data => {
+        if (data.length === 0)
+          setErrorText("The response was recieved, but there's no data on server")
+        else
+          setItems(data)
+      })
       .catch(() => setErrorText('Failed to get cats'))
       setIsLoading(false);
       handleScroll()

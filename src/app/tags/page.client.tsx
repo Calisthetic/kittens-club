@@ -123,7 +123,10 @@ export default function TagsPage({userName}:{userName:string|undefined|null}) {
         }
       })
       .then(data => {
-        setCurrentCat(data)
+        if (data.length === 0)
+          setErrorText("The response was recieved, but there's no data on server")
+        else
+          setCurrentCat(data)
       })
       .catch(() => setErrorText("Failed to get cat"))
     }

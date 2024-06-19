@@ -13,15 +13,23 @@ export default async function PatchManageCats(
   res: NextApiResponse
 ) {
   const dataService = new DataService();
-  "\n      UPDATE cats SET is_public = on, cat_name = '' WHERE id = 60064\n    "
+  
   try {
     const { username, is_public, cat_name, tags }:RequestBody = req.body
     const { id } = req.query
+    console.log(cat_name)
+    const user_results:any = await dataService.singleQuery(`
+      SELECT users.user_id FROM users WHERE user_name = '${username}' 
+    `, !is_public);
+    if (user_results.result.length === 0) {
+      return res.status(400).send({message: 'User not found'})
+    }
     const results:any = await dataService.singleQuery(`
-      UPDATE cats SET is_private = ? ${cat_name.length > 0 ? `, cat_name = '${cat_name}'` : ` `} WHERE cat_id = ${id}
+      UPDATE cats SET is_private = ?, cat_name = '${cat_name ?? ''}' 
+      WHERE cat_id = ${id} AND user_id = ${user_results.result[0].user_id}
     `, !is_public);
 
-    if (tags.length > 0) {
+    if (tags.length > 0 && tags[0] !== null) {
       await dataService.singleQuery(`
         DELETE FROM tags_of_cats WHERE cat_id = ${id}
       `);

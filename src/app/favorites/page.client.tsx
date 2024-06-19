@@ -65,7 +65,12 @@ export default function FavoritesPage ({userName}:{userName:string|null|undefine
           throw new Error("Sad...")
         }
       })
-      .then(data => setItems(data))
+      .then(data => {
+        if (data.length === 0)
+          setErrorText("The response was recieved, but there's no data on server")
+        else
+          setItems(data)
+      })
       .catch(() => setErrorText('Failed to get your favorite cats'))
       setIsLoading(false);
     };
