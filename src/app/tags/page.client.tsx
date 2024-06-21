@@ -170,6 +170,10 @@ export default function TagsPage({userName}:{userName:string|undefined|null}) {
     if (!currentCat || !isPublicInputRef.current || !nameInputRef.current) {
       return
     }
+    if (selectedTags.length === 0) {
+      setErrorText('Please, add few tags')
+      return
+    }
     await fetch(`/api/cats/${currentCat.id}/manage`, {
       method: 'PATCH',
       headers: {
@@ -284,7 +288,7 @@ export default function TagsPage({userName}:{userName:string|undefined|null}) {
                   </div>
                 </div>
               ))}
-              <button className="w-full py-1 px-2 text-lg font-normal rounded-lg text-center hover:bg-background-hover" 
+              <button className="w-full py-1 px-2 text-lg font-[Verdana] rounded-lg text-center hover:bg-background-hover" 
               onClick={() => setIsAddCategoryModalOpen(true)}>+ Add category</button>
             </div>
           ) : null}

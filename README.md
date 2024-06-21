@@ -32,6 +32,8 @@ npm i --save-dev @types/formidable
 npm install next-themes
 ```
 
+[ReactJS Drag Drop File Upload](https://codepen.io/codemzy/pen/YzELgbb)
+
 ### Getting Started
 
 First, run the development server:
