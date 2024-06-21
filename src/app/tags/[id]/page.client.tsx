@@ -151,6 +151,23 @@ export default function TagsPage({userName, catId}:{userName:string|undefined|nu
     .catch(() => setErrorText("Failed to save changes"))
   }
 
+  async function DeleteCat() {
+    await fetch(`/api/cats/${catId}`, {
+      method: 'DELETE',
+      headers: {
+        "Content-Type": "application/json"
+      },
+    })
+    .then(res => {
+      if (res.ok) {
+        router.push(`/${userName}`)
+      } else {
+        throw new Error()
+      }
+    })
+    .catch(() => setErrorText("Failed to delete cat"))
+  }
+
 
 
   return (
@@ -163,7 +180,11 @@ export default function TagsPage({userName, catId}:{userName:string|undefined|nu
                 <ImageCatCard catId={currentCat.id} catName={currentCat.name} userName={userName} 
                 liked={currentCat.liked_by_user_id !== null} favorite={currentCat.favorite_by_user_id !== null}></ImageCatCard>
               </div>
-              <div className="mt-1">
+              <div className="mt-1 flex gap-x-4 items-center">
+                <button onClick={DeleteCat} 
+                className="font-semibold text-foreground-primary transition-colors
+                border border-border hover:border-rose-600 hover:bg-rose-600 
+                rounded-lg px-4 py-2 text-center">Delete</button>
                 <AccentButton isButton type="button" click={SaveChanges}>Save</AccentButton>
               </div>
             </>
@@ -183,7 +204,8 @@ export default function TagsPage({userName, catId}:{userName:string|undefined|nu
                 text-black rounded-md bg-white border-border" autoComplete="off"/>
               </label>
               <label className="flex items-center cursor-pointer max-w-80 my-2">
-                <input type="checkbox" name="is_public" className="sr-only peer" ref={isPublicInputRef} defaultChecked={currentCat?.is_private ?? true}/>
+                <input type="checkbox" name="is_public" className="sr-only peer" 
+                ref={isPublicInputRef} defaultChecked={currentCat?.is_private ?? true}/>
                 <div className="relative w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 
                 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white 
                 after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 
@@ -193,7 +215,14 @@ export default function TagsPage({userName, catId}:{userName:string|undefined|nu
               {Object.keys(tags).map((item: any, index:number) => tags[item].length === 0 ? (null) : (
                 <div key={index} className={style.questionBox}>
                   <label className="cursor-pointer sm:hover:bg-background-hover rounded-lg transition-colors">
-                    <input type="checkbox" className={style.invisibleInput} defaultChecked={true}/>
+                    <input type="checkbox" className={style.invisibleInput} defaultChecked={true}
+                    onInput={(event:any) => {
+                      const elem = document.getElementById(`ans${index}`)
+                      if (elem) {
+                        elem.style.gridTemplateRows = event.target.checked ? "1fr" : '0fr'
+                        elem.style.padding = event.target.checked ? "8px 0px" : '0px'
+                      }
+                    }}/>
                     <div className={style.questionTitle}>
                       <div className="w-6"></div>
                       <p className=" first-letter:uppercase">{tags[item][0].tag_category_name}</p>
@@ -205,7 +234,11 @@ export default function TagsPage({userName, catId}:{userName:string|undefined|nu
                       </div>
                     </div>
                   </label>
-                  <div className={style.answerBox}>
+                  <div className={style.answerBox} id={`ans${index}`}
+                  style={{
+                    padding: "8px 0px",
+                    gridTemplateRows: "1fr"
+                  }}>
                     <div className={style.answerText}>
                       {tags[item].map((tag: Tag) => tag.tag_name !== null ? (selectedTags.indexOf(tag.tag_id) >= 0 ? (
                         <button key={tag.tag_id} className="rounded-lg py-1 px-2 bg-accent hover:bg-button-hover

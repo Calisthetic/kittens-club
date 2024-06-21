@@ -234,7 +234,14 @@ export default function TagsPage({userName}:{userName:string|undefined|null}) {
               {Object.keys(tags).map((item: any, index:number) => tags[item].length === 0 ? (null) : (
                 <div key={index} className={style.questionBox}>
                   <label className="cursor-pointer sm:hover:bg-background-hover rounded-lg transition-colors">
-                    <input type="checkbox" className={style.invisibleInput} defaultChecked={true}/>
+                    <input type="checkbox" className={style.invisibleInput} defaultChecked={true}
+                    onInput={(event:any) => {
+                      const elem = document.getElementById(`ans${index}`)
+                      if (elem) {
+                        elem.style.gridTemplateRows = event.target.checked ? "1fr" : '0fr'
+                        elem.style.padding = event.target.checked ? "8px 0px" : '0px'
+                      }
+                    }}/>
                     <div className={style.questionTitle}>
                       <div className="w-6"></div>
                       <p className=" first-letter:uppercase">{tags[item][0].tag_category_name}</p>
@@ -246,7 +253,11 @@ export default function TagsPage({userName}:{userName:string|undefined|null}) {
                       </div>
                     </div>
                   </label>
-                  <div className={style.answerBox}>
+                  <div className={style.answerBox} id={`ans${index}`}
+                  style={{
+                    padding: "8px 0px",
+                    gridTemplateRows: "1fr"
+                  }}>
                     <div className={style.answerText}>
                       {tags[item].map((tag: Tag) => tag.tag_name !== null ? (selectedTags.indexOf(tag.tag_id) >= 0 ? (
                         <button key={tag.tag_id} className="rounded-lg py-1 px-2 bg-accent hover:bg-button-hover

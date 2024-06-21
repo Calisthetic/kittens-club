@@ -6,7 +6,8 @@ type RequestBody = {
   limit:number
   offset:number
   search:string
-  tags:number[]
+  tags:number[],
+  is_mine?:boolean
 }
 
 export default async function SearchCats(
@@ -16,7 +17,7 @@ export default async function SearchCats(
   const dataService = new DataService();
   
   try {
-    const { limit, offset, search, tags, username }:RequestBody = req.body
+    const { limit, offset, search, tags, username, is_mine }:RequestBody = req.body
     const results:any = await dataService.singleQuery(`
       SELECT cats.cat_id AS id, cat_name AS name, users.user_name, 
       liked_cats.user_id AS liked_by_user_id, favorite_cats.user_id AS favorite_by_user_id FROM cats
@@ -25,6 +26,7 @@ export default async function SearchCats(
       LEFT JOIN liked_cats ON liked_cats.cat_id = cats.cat_id AND liked_cats.user_id = (SELECT user_id FROM users WHERE user_name = '${username}')
       LEFT JOIN favorite_cats ON favorite_cats.cat_id = cats.cat_id AND favorite_cats.user_id = (SELECT user_id FROM users WHERE user_name = '${username}')
       WHERE cats.is_private = FALSE 
+      ${is_mine ? `AND users.user_name = '${username}'` : ''}
       ${search ? `AND cats.cat_name LIKE '%${search}%' ` : ''}
       ${(tags && tags.length > 0) ? tags.map((tag_id) => (`
         AND EXISTS (SELECT 1 FROM tags_of_cats WHERE tag_id = ${tag_id} AND cat_id = cats.cat_id)

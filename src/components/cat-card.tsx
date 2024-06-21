@@ -3,9 +3,10 @@
 import Image from 'next/image'
 import Link from 'next/link';
 import { useRef, useState } from 'react';
+import Modal from './modal';
 
-export default function CatCard({catId, catName, userName, liked, favorite, allowEdit}
-:{catId:number, catName:string, userName:string|null|undefined, liked: boolean, favorite:boolean, allowEdit:boolean|undefined}) {
+export default function CatCard({catId, catName, userName, liked, favorite, allowEdit, modal}
+:{catId:number, catName:string, userName:string|null|undefined, liked: boolean, favorite:boolean, allowEdit:boolean|undefined, modal?:boolean}) {
   const [isUpdate, setIsUpdate] = useState<boolean>(true)
   const likedRef = useRef(liked)
   const favoriteRef = useRef(favorite)
@@ -93,14 +94,19 @@ export default function CatCard({catId, catName, userName, liked, favorite, allo
     });
   }
 
+  const [showModal, setShowModal] = useState(false)
+
   return (
     <div className='p-1'>
-      <div className='relative'>
+      <div className='relative max-h-min aspect-square'>
         <Image src={process.env.NEXT_PUBLIC_API_URL + '/api/cats/' + catId + '/image'} alt={'cat ' + catId} 
         height={1600}
         width={1600}
         priority={false}
         className='object-cover !w-full aspect-square rounded'></Image>
+        {modal ? (
+          <button onClick={() => setShowModal(true)} className='!h-full !w-full top-0 aspect-square absolute'></button>
+        ) : null}
         {userName ? (
           <>
           {likedRef.current ? (
@@ -158,6 +164,15 @@ export default function CatCard({catId, catName, userName, liked, favorite, allo
         </button>
       </div>
       <p className='text-sm text-wrap text-center'>{catName}</p>
+      {modal ? (
+        <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
+          <Image src={process.env.NEXT_PUBLIC_API_URL + '/api/cats/' + catId + '/image'} alt={'cat ' + catId} 
+          height={1600}
+          width={1600}
+          priority={false}
+          className='object-cover !w-full aspect-square rounded'></Image>
+        </Modal>
+      ) : null}
     </div>
   )
 }

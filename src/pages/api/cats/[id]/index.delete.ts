@@ -1,7 +1,7 @@
 import { DataService } from '@/lib/data-service';
 import { NextApiRequest, NextApiResponse } from "next"
 
-export default async function GetUsers(
+export default async function DeleteCat(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
@@ -9,7 +9,7 @@ export default async function GetUsers(
   const { id } = req.query
   
   try {
-    const results:any = await dataService.singleQuery(`DELETE * FROM cats WHERE cat_id = ${id}`);
+    const results:any = await dataService.singleQuery(`DELETE FROM cats WHERE cat_id = ${id}`);
     return res.json({ results }.results.result);
   } catch (error) {
     return res.status(500).send(error);
