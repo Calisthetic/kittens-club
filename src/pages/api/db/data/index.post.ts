@@ -52,7 +52,6 @@ export default async function PostTablesData(
     { tag_category_id: 3, tag_name: 'Paskha' },
     { tag_category_id: 3, tag_name: 'other' },
     { tag_category_id: 4, tag_name: 'flowers' },
-    { tag_category_id: 3, tag_name: 'other' },
     { tag_category_id: 5, tag_name: 'pow' },
     { tag_category_id: 5, tag_name: 'IT' },
     { tag_category_id: 5, tag_name: 'humor' },
