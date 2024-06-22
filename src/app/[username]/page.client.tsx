@@ -30,14 +30,13 @@ export default function ProfilePage ({userName}:{userName:string|null|undefined}
     .then((data) => {
       if (data.length > 0) {
         setItems((prevItems) => [...prevItems, ...data]);
+        setIndex((prevIndex) => prevIndex + 1);
+        setIsLoading(false);
       } else if (data.length < itemsPerRequest) {
         setIsFinal(true);
       }
     })
     .catch(() => setErrorText('Failed to load your cats :('));
-    setIndex((prevIndex) => prevIndex + 1);
-
-    setIsLoading(false);
   }, [index, isLoading]);
 
   useEffect(() => {
@@ -59,7 +58,6 @@ export default function ProfilePage ({userName}:{userName:string|null|undefined}
       })
       .catch(() => setErrorText('Failed to load your cats :('))
       setIsLoading(false);
-      handleScroll()
     };
 
     getData();
@@ -79,6 +77,9 @@ export default function ProfilePage ({userName}:{userName:string|null|undefined}
       window.removeEventListener("scroll", handleScroll);
     };
   }, [fetchData, isLoading, isFinal]);
+  useEffect(()=>{
+    handleScroll()
+  },[index])
 
 
 

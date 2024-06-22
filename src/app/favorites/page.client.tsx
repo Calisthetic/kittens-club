@@ -34,14 +34,13 @@ export default function FavoritesPage ({userName}:{userName:string|null|undefine
     .then((data) => {
       if (data.length > 0) {
         setItems((prevItems) => [...prevItems, ...data]);
+        setIndex((prevIndex) => prevIndex + 1);
+        setIsLoading(false);
       } else if (data.length < itemsPerRequest) {
         setIsFinal(true);
       }
     })
     .catch(() => setErrorText('Failed to get your favorite cats'));
-    setIndex((prevIndex) => prevIndex + 1);
-
-    setIsLoading(false);
   }, [index, isLoading]);
 
   useEffect(() => {
@@ -76,7 +75,6 @@ export default function FavoritesPage ({userName}:{userName:string|null|undefine
     };
 
     getData();
-    handleScroll()
   }, []);
 
   const handleScroll = () => {
@@ -92,6 +90,9 @@ export default function FavoritesPage ({userName}:{userName:string|null|undefine
       window.removeEventListener("scroll", handleScroll);
     };
   }, [fetchData, isLoading, isFinal]);
+  useEffect(()=>{
+    handleScroll()
+  },[index])
 
 
 

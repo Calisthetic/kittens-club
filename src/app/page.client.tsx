@@ -34,14 +34,13 @@ export default function MainPage ({userName}:{userName:string|null|undefined}) {
     .then((data) => {
       if (data.length > 0) {
         setItems((prevItems) => [...prevItems, ...data]);
+        setIndex((prevIndex) => prevIndex + 1);
+        setIsLoading(false);
       } else if (data.length < itemsPerRequest) {
         setIsFinal(true);
       }
     })
     .catch(() => setErrorText('Failed to load cats'));
-    setIndex((prevIndex) => prevIndex + 1);
-
-    setIsLoading(false);
   }, [index, isLoading]);
 
   useEffect(() => {
@@ -73,7 +72,6 @@ export default function MainPage ({userName}:{userName:string|null|undefined}) {
       })
       .catch(() => setErrorText('Failed to get cats'))
       setIsLoading(false);
-      handleScroll()
     };
 
     getData();
@@ -91,7 +89,10 @@ export default function MainPage ({userName}:{userName:string|null|undefined}) {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [fetchData, isLoading, isFinal]);
+  }, [isLoading, isFinal]);
+  useEffect(()=>{
+    handleScroll()
+  },[index])
 
 
 
@@ -101,7 +102,7 @@ export default function MainPage ({userName}:{userName:string|null|undefined}) {
         <div className="grid grid-cols-2 sm:grid-cols-3 p-1 lg:grid-cols-4 xl:grid-cols-6">
           {items ? items.map((item, index) => (
             <CatCard key={index} catId={item.id} catName={item.name} userName={userName} allowEdit={false}
-            liked={item.liked_by_user_id !== null} favorite={item.favorite_by_user_id !== null}></CatCard>
+            liked={item.liked_by_user_id !== null} favorite={item.favorite_by_user_id !== null} modal></CatCard>
           )) : null}
         </div>
       </div>

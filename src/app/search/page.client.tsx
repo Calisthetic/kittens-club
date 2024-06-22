@@ -53,14 +53,13 @@ export default function SearchPage ({userName}:{userName:string|null|undefined})
     .then((data) => {
       if (data.length > 0) {
         setItems((prevItems) => [...prevItems, ...data]);
+        setIndex((prevIndex) => prevIndex + 1);
+        setIsLoading(false);
       } else if (data.length < itemsPerRequest) {
         setIsFinal(true);
       }
     })
     .catch(() => setErrorText('Cats not found...'));
-    setIndex((prevIndex) => prevIndex + 1);
-
-    setIsLoading(false);
   }, [index, isLoading, searchText, selectedTags, isMine]);
 
   useEffect(() => {
@@ -97,11 +96,11 @@ export default function SearchPage ({userName}:{userName:string|null|undefined})
       })
       .catch(() => setErrorText('Cats not found...'))
       setIsLoading(false);
-      handleScroll()
     };
 
     getData();
     setIndex(1)
+    handleScroll()
   }, [searchText, selectedTags, isMine]);
 
   const handleScroll = () => {
@@ -117,6 +116,9 @@ export default function SearchPage ({userName}:{userName:string|null|undefined})
       window.removeEventListener("scroll", handleScroll);
     };
   }, [fetchData, isLoading, isFinal]);
+  useEffect(()=>{
+    handleScroll()
+  },[index])
 
 
 
