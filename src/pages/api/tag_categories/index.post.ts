@@ -10,8 +10,8 @@ export default async function PostTagCategories(
   try {
     const { tag_category_name } = req.body
     const results:any = await dataService.singleQuery(`
-      INSERT INTO tag_categories (tag_category_name) VALUES ('${tag_category_name}')
-    `);
+      INSERT INTO tag_categories (tag_category_name) VALUES (?)
+    `, [tag_category_name]);
     
     return res.json({results}.results.result);
   } catch (error) {

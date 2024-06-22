@@ -13,8 +13,8 @@ export default async function PatchCatLike(
     let userResult:any = await dataService.singleQuery(`
       SELECT users.user_id 
       FROM users
-      WHERE users.user_name = '${username}'
-    `);
+      WHERE users.user_name = ?
+    `, [username]);
     if (userResult.result.length === 0) {
       res.status(404).send({message: "User not fount"})
     }
@@ -24,8 +24,8 @@ export default async function PatchCatLike(
       SELECT users.user_id 
       FROM liked_cats 
       LEFT JOIN users ON users.user_id = liked_cats.user_id
-      WHERE cat_id = ${id} AND user_name = '${username}'
-    `);
+      WHERE cat_id = ${id} AND user_name = ?
+    `, [username]);
     if (results.result.length === 0) {
       results = await dataService.singleQuery(`INSERT INTO liked_cats (cat_id, user_id) VALUES (${id}, ${userId});`)
     } else {

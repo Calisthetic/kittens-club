@@ -28,8 +28,8 @@ export default async function PostCats(
         return res.status(400).send({message: 'Unable to read files'})
       }
       const userResult:any = await dataService.singleQuery(`
-        SELECT user_id FROM users WHERE user_name = '${fields.username[0]}'
-      `)
+        SELECT user_id FROM users WHERE user_name = ?
+      `, [fields.username[0]])
       if (userResult.result.length === 0) {
         return res.status(400).send({message: 'User not found'})
       }

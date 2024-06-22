@@ -19,7 +19,7 @@ export default async function SearchCats(
   try {
     const { limit, offset, search, tags, username, is_mine }:RequestBody = req.body
     const results:any = await dataService.singleQuery(`
-      SELECT cats.cat_id AS id, cat_name AS name, users.user_name, 
+      SELECT DISTINCT cats.cat_id AS id, cat_name AS name, users.user_name, 
       liked_cats.user_id AS liked_by_user_id, favorite_cats.user_id AS favorite_by_user_id FROM cats
       LEFT JOIN users ON users.user_id = cats.user_id 
       LEFT JOIN tags_of_cats ON tags_of_cats.cat_id = cats.cat_id
@@ -36,8 +36,8 @@ export default async function SearchCats(
       ${offset ? `OFFSET ${offset}` : ''}
     `);
 
-    const result1 = results.result.filter((item:any, index:number) => results.result.indexOf(results.result.filter((x:any) => x.id === item.id)[0]) == index)
-    return res.json(result1);
+    //const result1 = results.result.filter((item:any, index:number) => results.result.indexOf(results.result.filter((x:any) => x.id === item.id)[0]) == index)
+    return res.json(results.result);
   } catch (error) {
     console.log(error)
     return res.status(500).send(error);

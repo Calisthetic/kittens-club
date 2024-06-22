@@ -19,15 +19,15 @@ export default async function PatchManageCats(
     const { id } = req.query
     console.log(cat_name)
     const user_results:any = await dataService.singleQuery(`
-      SELECT users.user_id FROM users WHERE user_name = '${username}' 
-    `, !is_public);
+      SELECT users.user_id FROM users WHERE user_name = ? 
+    `, [username]);
     if (user_results.result.length === 0) {
       return res.status(400).send({message: 'User not found'})
     }
     const results:any = await dataService.singleQuery(`
-      UPDATE cats SET is_private = ?, cat_name = '${cat_name ?? ''}' 
+      UPDATE cats SET is_private = ?, cat_name = ? 
       WHERE cat_id = ${id} AND user_id = ${user_results.result[0].user_id}
-    `, !is_public);
+    `, [!is_public, cat_name]);
 
     if (tags.length > 0 && tags[0] !== null) {
       await dataService.singleQuery(`
