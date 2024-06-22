@@ -196,6 +196,23 @@ export default function TagsPage({userName}:{userName:string|undefined|null}) {
     .catch(() => setErrorText("Failed to save changes"))
   }
 
+  async function DeleteCat() {
+    await fetch(`/api/cats/${currentCat?.id}`, {
+      method: 'DELETE',
+      headers: {
+        "Content-Type": "application/json"
+      },
+    })
+    .then(res => {
+      if (res.ok) {
+        setIsNext(x => !x)
+      } else {
+        throw new Error()
+      }
+    })
+    .catch(() => setErrorText("Failed to delete cat"))
+  }
+
 
 
   return (
@@ -208,7 +225,11 @@ export default function TagsPage({userName}:{userName:string|undefined|null}) {
                 <ImageCatCard catId={currentCat.id} catName={currentCat.name} userName={userName} 
                 liked={currentCat.liked_by_user_id !== null} favorite={currentCat.favorite_by_user_id !== null}></ImageCatCard>
               </div>
-              <div className="mt-1">
+              <div className="mt-1 flex gap-x-4 items-center">
+                <button onClick={DeleteCat} 
+                className="font-semibold text-foreground-primary transition-colors
+                border border-border hover:border-rose-600 hover:bg-rose-600 
+                rounded-lg px-4 py-2 text-center">Delete</button>
                 <AccentButton isButton type="button" click={SaveChanges}>Next</AccentButton>
               </div>
             </>
@@ -225,7 +246,7 @@ export default function TagsPage({userName}:{userName:string|undefined|null}) {
                 Cat name (if exists):
                 <input name="cat_name" type="text" ref={nameInputRef} defaultValue={currentCat?.name}
                 className="block w-full px-2 py-1.5 border text-sm sm:text-base sm:leading-6 
-                text-black rounded-md bg-white border-border" />
+                text-black rounded-md bg-white border-border" autoComplete="off" />
               </label>
               <label className="flex items-center cursor-pointer max-w-80 my-2">
                 <input type="checkbox" name="is_public" className="sr-only peer" ref={isPublicInputRef} defaultChecked={currentCat?.is_public ?? true}/>
@@ -264,7 +285,7 @@ export default function TagsPage({userName}:{userName:string|undefined|null}) {
                   }}>
                     <div className={style.answerText}>
                       {tags[item].map((tag: Tag) => tag.tag_name !== null ? (selectedTags.indexOf(tag.tag_id) >= 0 ? (
-                        <button key={tag.tag_id} className="rounded-lg py-1 px-2 bg-accent hover:bg-button-hover
+                        <button key={tag.tag_id} className="rounded-lg py-0.5 px-2 bg-accent hover:bg-button-hover
                         transition-colors cursor-pointer" onClick={() => {
                           const newArr = [...selectedTags]
                           newArr.splice(newArr.indexOf(tag.tag_id), 1)
@@ -273,7 +294,7 @@ export default function TagsPage({userName}:{userName:string|undefined|null}) {
                           {tag.tag_name}
                         </button>
                       ) : (
-                        <button key={tag.tag_id} className="rounded-lg py-1 px-2 bg-background-hover hover:bg-button
+                        <button key={tag.tag_id} className="rounded-lg py-0.5 px-2 bg-background-hover hover:bg-button
                         transition-colors cursor-pointer" onClick={() => {
                           setSelectedTags([...selectedTags, tag.tag_id])
                         }}>
@@ -300,7 +321,7 @@ export default function TagsPage({userName}:{userName:string|undefined|null}) {
           <h1 className=' text-center text-xl font-medium sm:whitespace-nowrap whitespace-normal'>Entry tag name:</h1>
           <input name="tag_name" type="text" ref={addTagRef} autoComplete="off"
           className="block w-full px-1 py-0.5 border text-sm sm:text-base sm:leading-6 
-          text-black rounded-md bg-white border-border" />
+          text-black rounded-md bg-white border-border mt-2" />
           <div className="flex flex-col gap-y-2">
             <button onClick={() => AddTag(selectedTagCategory, addTagRef.current?.value)} 
             className="font-semibold text-foreground transition-colors
@@ -316,7 +337,7 @@ export default function TagsPage({userName}:{userName:string|undefined|null}) {
           <h1 className=' text-center font-medium sm:whitespace-nowrap whitespace-normal'>Entry category name:</h1>
           <input name="tag_category_name" type="text" ref={addCategoryRef} autoComplete="off"
           className="block w-full px-1 py-0.5 border text-sm sm:text-base sm:leading-6 
-          text-black rounded-md bg-white border-border mt-1" />
+          text-black rounded-md bg-white border-border mt-2" />
           <div className="flex flex-col gap-y-2">
             <button onClick={() => AddCategory(addCategoryRef.current?.value)} 
             className="font-semibold text-foreground transition-colors

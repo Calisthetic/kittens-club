@@ -25,10 +25,6 @@ export default function SearchPage ({userName}:{userName:string|null|undefined})
   const itemsPerRequest = 12
 
   const fetchData = useCallback(async () => {
-    if (isLoading) return;
-
-    setIsLoading(true);
-
     await fetch(`/api/cats/search`, {
       method: 'POST',
       headers: {
@@ -53,8 +49,6 @@ export default function SearchPage ({userName}:{userName:string|null|undefined})
     .then((data) => {
       if (data.length > 0) {
         setItems((prevItems) => [...prevItems, ...data]);
-        setIndex((prevIndex) => prevIndex + 1);
-        setIsLoading(false);
       } else if (data.length < itemsPerRequest) {
         setIsFinal(true);
       }
@@ -63,8 +57,8 @@ export default function SearchPage ({userName}:{userName:string|null|undefined})
   }, [index, isLoading, searchText, selectedTags, isMine]);
 
   useEffect(() => {
+    setIsFinal(false)
     const getData = async () => {
-      setIsLoading(true);
       await fetch(`/api/cats/search`, {
         method: 'POST',
         headers: {
@@ -95,19 +89,22 @@ export default function SearchPage ({userName}:{userName:string|null|undefined})
         }
       })
       .catch(() => setErrorText('Cats not found...'))
-      setIsLoading(false);
     };
 
-    getData();
-    setIndex(1)
-    handleScroll()
+    getData().then(() => {
+      setIndex(1)
+    })
   }, [searchText, selectedTags, isMine]);
 
   const handleScroll = () => {
     const { scrollTop, clientHeight, scrollHeight } =
       document.documentElement;
-    if ((scrollTop + clientHeight >= scrollHeight - 100 && !isLoading && !isFinal) || scrollHeight === clientHeight) {
-      fetchData();
+    if (((scrollTop + clientHeight >= scrollHeight - 100 && !isLoading) || scrollHeight === clientHeight) && !isFinal) {
+      setIsLoading(true)
+      fetchData().then(() => {
+        setIsLoading(false)
+        setIndex(prev => prev + 1)
+      });
     }
   };
   useEffect(() => {
@@ -118,7 +115,7 @@ export default function SearchPage ({userName}:{userName:string|null|undefined})
   }, [fetchData, isLoading, isFinal]);
   useEffect(()=>{
     handleScroll()
-  },[index])
+  },[index, isFinal])
 
 
 

@@ -38,7 +38,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 8px;
+  gap: 6px;
   padding: 0px 4px;
 }
 .questionBox:has(.invisibleInput:checked) .answerBox {
