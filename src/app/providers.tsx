@@ -5,7 +5,7 @@ export default async function Providers({children}:{children: ReactNode}) {
   
   return (
     <ThemeProvider>
-        {children}
+      {children}
     </ThemeProvider>
   )
 }

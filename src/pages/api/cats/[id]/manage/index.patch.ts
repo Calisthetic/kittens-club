@@ -29,10 +29,12 @@ export default async function PatchManageCats(
       WHERE cat_id = ${id} AND user_id = ${user_results.result[0].user_id}
     `, [!is_public, cat_name]);
 
-    if (tags.length > 0 && tags[0] !== null) {
+    if (tags && tags.length >= 0) {
       await dataService.singleQuery(`
         DELETE FROM tags_of_cats WHERE cat_id = ${id}
       `);
+    }
+    if (tags.length > 0 && tags[0] !== null) {
       for (let i = 0; i < tags.length; i++) {
         await dataService.singleQuery(`
           INSERT INTO tags_of_cats (cat_id, tag_id) VALUES (${id}, ${tags[i]})
