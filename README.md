@@ -14,7 +14,7 @@
 
 Личный кабинет [TiDB](https://tidbcloud.com/console/clusters/10066201494960421752/overview?orgId=1372813089209231409&projectId=1372813089454548684)
 
-### How?
+### History
 
 ```bash
 npm create next-app
@@ -34,19 +34,27 @@ npm install next-themes
 
 [ReactJS Drag Drop File Upload](https://codepen.io/codemzy/pen/YzELgbb)
 
-### Getting Started
+### Setup
 
-First, run the development server:
+Install project locally. Check database [provider](https://tidbcloud.com/console/clusters/10066201494960421752/overview?orgId=1372813089209231409&projectId=1372813089454548684) and create **.env.development.local** file as example:
+
+```bash
+TIDB_HOST=gateway01.eu-central-1.prod.aws.tidbcloud.com
+TIDB_PORT=4000
+TIDB_USER=x.root
+TIDB_PASSWORD=x
+TIDB_DATABASE=x
+NEXT_PUBLIC_API_URL="http://localhost:3000"
+AUTH_SECRET="x"
+```
+
+Run the development server:
 
 ```bash
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Also check next.config.js to prevent troubles with images
 
 ## Other
 
