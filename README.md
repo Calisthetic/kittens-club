@@ -21,7 +21,6 @@ npm create next-app
 ```
 
 ```bash
-npm install next-intl
 npm install autoprefixer
 npm install framer-motion
 npm install mysql2
@@ -46,6 +45,7 @@ TIDB_PASSWORD=x
 TIDB_DATABASE=x
 NEXT_PUBLIC_API_URL="http://localhost:3000"
 AUTH_SECRET="x"
+NODE_ENV="development"
 ```
 
 Run the development server:
