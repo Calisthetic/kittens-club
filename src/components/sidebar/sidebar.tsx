@@ -201,8 +201,7 @@ export default function Sidebar({isOpen, username, close}
                 links.map((item, index:number) => item.isAuthRequired && !username ? (
                   <motion.li key={index} initial={{y: 20, opacity: 0}} animate={{y: 0, opacity: 1}}
                   transition={{delay: (0.02 * (index + 1) + 0.2), stiffness: 300, damping: 24}}>
-                    <div className="flex items-center p-1.5 sm:p-2 transition-all
-                    rounded-lg hover:bg-background-hover opacity-40">
+                    <div className="flex items-center p-1.5 sm:p-2 transition-all rounded-lg opacity-40" title="Sign in to get full access">
                       {item.icon}
                       <span className="flex-1 ml-3 whitespace-nowrap">{item.text}</span>
                     </div>

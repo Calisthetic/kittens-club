@@ -102,7 +102,7 @@ export default function LikedPage ({userName}:{userName:string|null|undefined}) 
         <div className="grid grid-cols-2 sm:grid-cols-3 p-1 lg:grid-cols-4 xl:grid-cols-6">
           {items.map((item, index) => (
             <CatCard key={index} catId={item.id} catName={item.name} userName={userName} allowEdit={userName === item.user_name}
-            liked={item.liked_by_user_id !== null} favorite={item.favorite_by_user_id !== null}></CatCard>
+            liked={item.liked_by_user_id !== null} favorite={item.favorite_by_user_id !== null} modal></CatCard>
           ))}
         </div>
       </div>
