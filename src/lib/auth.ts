@@ -12,6 +12,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       credentials: {
         username: {},
         password: {},
+        isRegister: {type: "hidden"}
       },
       authorize: async (credentials) => {
         const dataService = new DataService();
@@ -20,6 +21,16 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         // logic to salt and hash password
         const pwHash = credentials.password //saltAndHashPassword(credentials.password)
  
+        if (credentials.isRegister) {
+          const newUser:any = await dataService.singleQuery(`
+              INSERT INTO users (user_name, password, email) 
+              VALUES (?, ?, ?)
+            `, [credentials.username, pwHash, `${credentials.username}@example.com`]);
+
+          if (newUser.result.length === 0) {
+            throw new Error("Ошибка при создании пользователя");
+          }
+        }
         // logic to verify if user exists
         user = await dataService.singleQuery(`
           SELECT user_name AS name, email, user_id AS id FROM users WHERE password = ? AND user_name = ?

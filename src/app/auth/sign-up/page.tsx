@@ -7,7 +7,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
-export default function SignInPage() {
+export default function SignupPage() {
   const passwordRef = useRef<HTMLInputElement>(null)
   const usernameRef = useRef<HTMLInputElement>(null)
   const [errorText, setErrorText] = useState('')
@@ -23,7 +23,7 @@ export default function SignInPage() {
       <div className="sm:max-w-sm w-full">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm flex flex-col items-center">
           <Link href={"/"} className="text-sm">⟵ back to home</Link>
-          <h2 className="mt-2 text-center text-xl font-bold leading-9 tracking-tight">Sign in to your account</h2>
+          <h2 className="mt-2 text-center text-xl font-bold leading-9 tracking-tight">Create your account</h2>
         </div>
 
         <form action={(formData) => {
@@ -42,13 +42,18 @@ export default function SignInPage() {
             className="block w-full px-2 py-1.5 border text-sm sm:text-base sm:leading-6 
           text-black rounded-md bg-white border-border" />
           </label>
-          <AccentButton isButton type="submit"><span>Sign In</span></AccentButton>
+          <input 
+            type="hidden" 
+            name="isRegister" 
+            value="true" 
+          />
+          <AccentButton isButton type="submit"><span>Sign Up</span></AccentButton>
         </form>
 
         <div className="mt-4 text-center text-sm text-textLight dark:text-textDark ">
-          <span className='opacity-70'>Not a member?</span>
-          <Link href="/auth/sign-up" className="font-semibold leading-6 text-buttonLight dark:text-buttonDark 
-          hover:text-buttonHoverLight dark:hover:text-buttonHoverDark ml-1">Join now!</Link>
+          <span className='opacity-70'>Already have an account?</span>
+          <Link href="/auth/sign-in" className="font-semibold leading-6 text-buttonLight dark:text-buttonDark 
+          hover:text-buttonHoverLight dark:hover:text-buttonHoverDark ml-1">Sign in!</Link>
         </div>
       </div>
 
