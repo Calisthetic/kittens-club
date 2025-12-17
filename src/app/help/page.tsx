@@ -35,7 +35,7 @@ export default async function Page() {
             <div className="w-[4px] bg-icon"></div>
             <div className="w-[calc(100%-4px)]">
               <button className="peer group w-full cursor-pointer focus:cursor-default flex justify-between items-center px-2 sm:px-4 py-2">
-                <span className="text-left text-base sm:text-lg font-semibold mr-1">{item.question}</span>
+                <span className="text-left text-base sm:text-lg mr-1">{item.question}</span>
                 <div>
                   <svg className="w-4 h-4 transition-transform group-focus:-scale-y-100 fill-none" aria-hidden="true" 
                   xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 6">

@@ -89,7 +89,7 @@ export default function ProfilePage ({userName}:{userName:string|null|undefined}
         <div className="w-full text-center text-xl mt-2 mb-1">My cats:</div>
         <div className="grid grid-cols-2 sm:grid-cols-3 p-1 lg:grid-cols-4 xl:grid-cols-6">
           {items.map((item, index) => (
-            <CatCard key={index} catId={item.id} catName={item.name} userName={userName} allowEdit 
+            <CatCard key={index} catId={item.id} catName={item.name} userName={userName} allowEdit={userName === item.user_name}
             liked={item.liked_by_user_id !== null} favorite={item.favorite_by_user_id !== null}></CatCard>
           ))}
         </div>

@@ -22,7 +22,7 @@ export default function SignInPage() {
     <div className="flex h-full sm:w-auto min-h-full flex-col items-center justify-center px-6 py-12 lg:px-8">
       <div className="sm:max-w-sm w-full">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm flex flex-col items-center">
-          <Link href={"/"}>home</Link>
+          <Link href={"/"} className="text-sm">⟵ back to home</Link>
           <h2 className="mt-2 text-center text-xl font-bold leading-9 tracking-tight">Sign in to your account</h2>
         </div>
 
@@ -38,14 +38,14 @@ export default function SignInPage() {
           </label>
           <label className="block text-sm sm:text-base mt-2 font-medium leading-6 mb-4">
             Password
-            <input name="password" type="password" ref={passwordRef}
+            <input name="password" type="text" ref={passwordRef}
             className="block w-full px-2 py-1.5 border text-sm sm:text-base sm:leading-6 
           text-black rounded-md bg-white border-border" />
           </label>
           <AccentButton isButton type="submit"><span>Sign In</span></AccentButton>
         </form>
 
-        <div className="mt-6 text-center text-sm text-textLight dark:text-textDark ">
+        <div className="mt-4 text-center text-sm text-textLight dark:text-textDark ">
           <span className='opacity-70'>Not a member?</span>
           <Link href="/auth/signup" className="font-semibold leading-6 text-buttonLight dark:text-buttonDark 
           hover:text-buttonHoverLight dark:hover:text-buttonHoverDark ml-1">Join now!</Link>

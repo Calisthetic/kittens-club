@@ -7,7 +7,53 @@ import IconClose from "../icons/close";
 
 export default function Sidebar({isOpen, username, close}
 :{isOpen:boolean, username:string|null, close:() => void}) {
-  const [isAdOpen, setIsAdOpen] = useState(true)
+  const wishes = [
+    "Пусть этот день будет невероятно добрым",
+    "Пусть сегодня все получится легко и просто",
+    "Желаю тебе море улыбок сегодня",
+    "Пусть день подарит только приятные сюрпризы",
+    "Желаю вдохновения и отличного настроения",
+    "Пусть сегодня будет больше поводов радоваться",
+    "Желаю спокойствия в душе и радости",
+    "Пусть этот день будет по‑настоящему особенным",
+    "Желаю тебе тепла и душевного уюта",
+    "Пусть рядом будут только добрые люди",
+    "Желаю лёгкости в каждом твоём шаге",
+    "Пусть удача сегодня не покидает тебя",
+    "Желаю гармонии в сердце и мыслях",
+    "Пусть сегодня исполнятся большие желания",
+    "Желаю светлых мыслей и вдохновения",
+    "Пусть сегодня всё радует и вдохновляет",
+    "Желаю улыбаться без повода весь день",
+    "Пусть этот день начнётся с хороших новостей",
+    "Желаю тебе нежности и заботы вокруг",
+    "Желаю приятных встреч и новых идей",
+    "Желаю тебе сил и мягкого спокойствия",
+    "Пусть чувство уверенности не покидает тебя",
+    "Желаю радоваться каждому моменту сегодняшнего дня",
+    "Пусть солнечное настроение не покидает тебя",
+    "Пусть день подарит новые тёплые воспоминания",
+    "Желаю чувствовать поддержку и любовь рядом",
+    "Пусть этот день пройдёт легко и радостно",
+    "Пусть глаза твои сияют",
+    "Желаю внутреннего равновесия и спокойствия",
+    "Пусть день будет наполнен вдохновением и нежностью",
+    "Пусть каждое дело приносит удовлетворение",
+    "Желаю встречать сегодня только добро",
+    "Пусть сердце почувствует лёгкость и радость",
+    "Пусть день начнётся с приятной мысли",
+    "Пусть день наполнится искренними улыбками",
+    "Желаю добра тебе в каждом моменте",
+    "Пусть сегодня не будет поводов волноваться",
+    "Пусть день будет щедрым на вдохновение",
+    "Желаю приятных неожиданностей и тёплых слов",
+    "Пусть этот день станет маленьким началом",
+    "Желаю встретить сегодня хотя бы одно чудо",
+    "Пусть будет много света внутри тебя",
+    "Желаю, чтобы сегодняшний день запомнился добром"
+  ];
+
+  // const [isAdOpen, setIsAdOpen] = useState(true)
 
   const links = [
     {
@@ -266,49 +312,60 @@ export default function Sidebar({isOpen, username, close}
             </ul>
 
             {/* Banner */}
-            <AnimatePresence>
-              {isAdOpen === true && (
-                <motion.div initial={{x: -300, opacity: 0}} animate={{x: 0, opacity: 1}} 
-                transition={{delay: 0.12, stiffness: 300, damping: 24}} exit={{x: -1000, opacity: 0}}
-                className="p-2 sm:p-4 mt-4 sm:mt-6 transition rounded-lg bg-background-second 
-                text-sm shadow-shadow">
-                  <div className="flex items-center mb-3 justify-between">
-                    <div className="font-medium mr-2 px-1 sm:px-2 py-0.5 rounded bg-accent text-sm">{username ? "New!" : "Info"}</div>
-                    <button onClick={() => {setIsAdOpen(false)}} type="button" id="cloase-ad" aria-label="Close ad"
-                    className="ml-auto sm:-mx-1.5 -my-1.5
-                    justify-center items-center w-6 h-6 text-textLight rounded-lg transition-all p-1 inline-flex
-                    hover:bg-background-hover">
-                      <IconClose className="w-2.5 h-2.5"></IconClose>
-                    </button>
-                  </div>
-                  {
-                    username ? (
-                      <>
-                        <p className="mb-2 sm:mb-3">
-                          Prewiew new feature with <u>the best</u> posts! 
-                          Check the main page using the button below.
-                        </p>
-                        <Link href="/" onClick={() => {setIsAdOpen(false)}} 
-                        className="text-button hover:text-button-hover underline font-medium transition-colors">
-                          Try new feature now
-                        </Link>
-                      </>
-                    ) : (
-                      <>
-                        <p className="mb-2 sm:mb-3">
-                          Unlock <u>all features</u> now! 
-                          Log in to your account and use all the features of the service.
-                        </p>
-                        <Link href="/auth/sign-in" onClick={() => {setIsAdOpen(false)}} 
-                        className="text-button hover:text-button-hover underline font-medium transition-colors">
-                          Sign in
-                        </Link>
-                      </>
-                    )
-                  }
-                </motion.div>
-              )}
-            </AnimatePresence>
+            {/* {username ? null : (
+              <AnimatePresence>
+                {isAdOpen === true && (
+                  <motion.div initial={{x: -300, opacity: 0}} animate={{x: 0, opacity: 1}} 
+                  transition={{delay: 0.12, stiffness: 300, damping: 24}} exit={{x: -1000, opacity: 0}}
+                  className="p-2 sm:p-4 mt-4 sm:mt-6 transition rounded-lg bg-background-second 
+                  text-sm shadow-shadow">
+                    <div className="flex items-center mb-3 justify-between">
+                      <div className="font-medium mr-2 px-1 sm:px-2 py-0.5 rounded bg-accent text-sm">{username ? "New!" : "Info"}</div>
+                      <button onClick={() => {setIsAdOpen(false)}} type="button" id="cloase-ad" aria-label="Close ad"
+                      className="ml-auto sm:-mx-1.5 -my-1.5
+                      justify-center items-center w-6 h-6 text-textLight rounded-lg transition-all p-1 inline-flex
+                      hover:bg-background-hover">
+                        <IconClose className="w-2.5 h-2.5"></IconClose>
+                      </button>
+                    </div>
+                    {
+                      username ? (
+                        <>
+                          <p className="mb-2 sm:mb-3">
+                            Prewiew new feature with <u>the best</u> posts! 
+                            Check the main page using the button below.
+                          </p>
+                          <Link href="/" onClick={() => {setIsAdOpen(false)}} 
+                          className="text-button hover:text-button-hover underline font-medium transition-colors">
+                            Try new feature now
+                          </Link>
+                        </>
+                      ) : (
+                        <>
+                          <p className="mb-2 sm:mb-3">
+                            Unlock <u>all features</u> now! 
+                            Log in to your account and use all the features of the service.
+                          </p>
+                          <Link href="/auth/sign-in" onClick={() => {setIsAdOpen(false)}} 
+                          className="text-button hover:text-button-hover underline font-medium transition-colors">
+                            Sign in
+                          </Link>
+                        </>
+                      )
+                    }
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            )} */}
+
+            {/* Good wishes */}
+            <motion.div initial={{opacity: 0}} animate={{opacity: 1}} 
+            transition={{delay: 0.5, stiffness: 300, damping: 24}}
+            className="p-2 sm:p-4 mt-2 sm:mt-6 transition rounded-lg bg-background-second text-sm shadow-shadow">
+              <p>
+                {wishes[Math.floor(Math.random() * wishes.length)]}!
+              </p>
+            </motion.div>
           </div>
         </motion.div>
       )}

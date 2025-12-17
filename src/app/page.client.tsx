@@ -100,10 +100,10 @@ export default function MainPage ({userName}:{userName:string|null|undefined}) {
     <div className="flex min-h-[calc(100vh-48px)] flex-col items-center">
       <div className="max-w-7xl w-full">
         <div className="grid grid-cols-2 sm:grid-cols-3 p-1 lg:grid-cols-4 xl:grid-cols-6">
-          {items ? items.map((item, index) => (
-            <CatCard key={index} catId={item.id} catName={item.name} userName={userName} allowEdit={false}
-            liked={item.liked_by_user_id !== null} favorite={item.favorite_by_user_id !== null} modal></CatCard>
-          )) : null}
+          {items.map((item, index) => (
+            <CatCard key={index} catId={item.id} catName={item.name} userName={userName} allowEdit={userName === item.user_name}
+            liked={item.liked_by_user_id !== null} favorite={item.favorite_by_user_id !== null}></CatCard>
+          ))}
         </div>
       </div>
       {(isLoading && !isFinal) && <Loading></Loading>}

@@ -139,15 +139,17 @@ export default function SearchPage ({userName}:{userName:string|null|undefined})
           className="block w-full px-2 py-1.5 border text-sm sm:text-base sm:leading-6 
           text-black rounded-md bg-white border-border" />
         </label>
-        <label className="flex items-center cursor-pointer max-w-80 ml-2">
-          <input type="checkbox" name="is_mine" className="sr-only peer" 
-          defaultChecked={isMine} onInput={(e:any) => setIsMine(e.target.checked)}/>
-          <div className="relative w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 
-          peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white 
-          after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 
-          after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-icon"></div>
-          <span className="ms-3 text-sm font-medium">My cats only</span>
-        </label>
+        {userName ? (
+          <label className="flex items-center cursor-pointer max-w-80 ml-2">
+            <input type="checkbox" name="is_mine" className="sr-only peer" 
+            defaultChecked={isMine} onInput={(e:any) => setIsMine(e.target.checked)}/>
+            <div className="relative w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 
+            peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white 
+            after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 
+            after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-icon"></div>
+            <span className="ms-3 text-sm font-medium">My cats only</span>
+          </label>
+        ) : null}
         <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3 p-1 md:p-2">
           {tags ? Object.keys(tags).map((item: any, index:number) => tags[item].length === 0 ? (null) : (
             <div key={index} className={style.questionBox}>
@@ -196,10 +198,10 @@ export default function SearchPage ({userName}:{userName:string|null|undefined})
           )) : null}
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-3 p-1 lg:grid-cols-4 xl:grid-cols-6">
-          {items ? items.map((item, index) => (
-            <CatCard key={index} catId={item.id} catName={item.name} userName={userName} allowEdit={false}
-            liked={item.liked_by_user_id !== null} favorite={item.favorite_by_user_id !== null} modal></CatCard>
-          )) : null}
+          {items.map((item, index) => (
+            <CatCard key={index} catId={item.id} catName={item.name} userName={userName} allowEdit={userName === item.user_name}
+            liked={item.liked_by_user_id !== null} favorite={item.favorite_by_user_id !== null}></CatCard>
+          ))}
         </div>
       </div>
       {(isLoading && !isFinal) && <Loading></Loading>}
