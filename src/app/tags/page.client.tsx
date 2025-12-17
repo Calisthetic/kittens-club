@@ -124,11 +124,11 @@ export default function TagsPage({userName}:{userName:string|undefined|null}) {
       })
       .then(data => {
         if (data.length === 0)
-          setErrorText("The response was recieved, but there's no data on server")
+          setErrorText("The response was recieved, but there's no data on server. Try to upload your cats")
         else
           setCurrentCat(data)
       })
-      .catch(() => setErrorText("Failed to get cat"))
+      .catch(() => setErrorText("Error. Try to upload your cats"))
     }
     getData()
   }, [])
@@ -158,7 +158,7 @@ export default function TagsPage({userName}:{userName:string|undefined|null}) {
       .then(data => {
         nextCat.current = data
       })
-      .catch(() => setErrorText("Failed to get cat"))
+      .catch(() => setErrorText("Error. Try to upload your cats"))
     }
     setSelectedTags([])
     if (nameInputRef.current)
