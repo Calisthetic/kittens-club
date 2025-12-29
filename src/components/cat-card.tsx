@@ -170,6 +170,8 @@ export default function CatCard({catId, catName, userName, liked, favorite, allo
           height={1600}
           width={1600}
           priority={false}
+          unoptimized={true}
+          loading={"lazy"}
           className='object-cover !w-full max-h-[94vh] max-w-[94vw] rounded'></Image>
         </Modal>
       ) : null}
