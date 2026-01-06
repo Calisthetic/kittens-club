@@ -96,14 +96,47 @@ export default function CatCard({catId, catName, userName, liked, favorite, allo
 
   const [showModal, setShowModal] = useState(false)
 
+  const shimmer = (w: number, h: number) => `
+  <svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <style>
+      .placeholder-base {
+        fill: #f8fafc; /* slate-50 */
+        transition: opacity 0.3s ease;
+      }
+      .placeholder-pulse {
+        fill: #e2e8f0; /* slate-200 */
+        opacity: 0;
+        animation: gentle-pulse 3s ease-in-out infinite;
+      }
+      @keyframes gentle-pulse {
+        0%, 100% { opacity: 0; }
+        50% { opacity: 0.4; }
+      }
+    </style>
+    
+    <rect width="${w}" height="${h}" class="placeholder-base"/>
+    <rect width="${w}" height="${h}" class="placeholder-pulse"/>
+  </svg>`
+
+  const toBase64 = (str:string) =>
+    typeof window === 'undefined'
+      ? Buffer.from(str).toString('base64')
+      : window.btoa(str)
+
+
   return (
     <div className='p-1'>
       <div className='relative max-h-min aspect-square'>
         <Image src={process.env.NEXT_PUBLIC_API_URL + '/api/cats/' + catId + '/image'} alt={'cat ' + catId} 
-        height={1600}
-        width={1600}
+        height={200}
+        width={200}
         priority={false}
-        className='object-cover !w-full aspect-square rounded'></Image>
+        unoptimized={true}
+        loading={"lazy"}
+        placeholder="blur"
+        blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(200, 200))}`}
+        onLoadingComplete={(img) => img.classList.remove('opacity-0')}
+        className='object-cover !w-full aspect-square rounded transition-opacity duration-300 opacity-0 animate-in fade-in'></Image>
         {modal ? (
           <button onClick={() => setShowModal(true)} className='!h-full !w-full top-0 aspect-square absolute'></button>
         ) : null}
